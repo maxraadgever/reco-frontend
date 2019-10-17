@@ -6,6 +6,7 @@ import { Redirect, Route, Switch } from "react-router";
 import { BrowserRouter } from "react-router-dom";
 import LoginPage from "./shared/LoginPage/LoginPage";
 import DashboardPage from "./investor/Dashboard/DashboardPage";
+import RegisterPage from "./shared/RegisterPage/RegisterPage";
 
 interface IState {
   JwtCookieKey: string;
@@ -33,6 +34,9 @@ class App extends Component<IProps, IState> {
         <Route path="/login">
           <LoginPage />
         </Route>
+        <Route path="/register">
+          <RegisterPage />
+        </Route>
         <Route path="/">
           <DashboardPage />
         </Route>
@@ -44,7 +48,11 @@ class App extends Component<IProps, IState> {
     const { JwtCookieKey } = this.state;
 
     //@ts-ignore
-    if (!JwtCookieKey && window.location.pathname != "/login") {
+    if (
+      !JwtCookieKey &&
+      (window.location.pathname != "/login" &&
+        window.location.pathname != "/register")
+    ) {
       return <Redirect to="/login" />;
     }
   }

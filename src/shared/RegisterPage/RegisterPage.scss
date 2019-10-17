@@ -12,7 +12,7 @@ html {
   opacity: 0.3;
 }
 
-.loginContainer {
+.registerContainer {
   position: fixed;
   top: 100px;
   margin: auto;
@@ -21,7 +21,7 @@ html {
   max-width: 100% !important;
 }
 
-.loginForm {
+.registerForm {
   background-color: #ffffff;
   border-radius: 4px;
   padding: 25px;
@@ -29,7 +29,8 @@ html {
   .submit {
     margin-top: 20px;
   }
-  .register {
+
+  .login {
     margin-top: 20px;
     margin-bottom: 20px;
   }

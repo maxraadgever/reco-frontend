@@ -1,17 +1,28 @@
 import React, { Component } from "react";
 import Box from "@material-ui/core/Box";
-import { Container, TextField, Button, FormGroup } from "@material-ui/core";
+import {
+  Container,
+  TextField,
+  Button,
+  FormGroup,
+  Link
+} from "@material-ui/core";
 import axios from "axios";
 import "./LoginPage.scss";
 import { Redirect } from "react-router";
 import { instanceOf } from "prop-types";
 import { withCookies, Cookies } from "react-cookie";
+import logo from "../resources/img/reco.png";
+import { errors } from "../resources/text";
+import { colors } from "../resources/styles";
 
 interface IState {
   username: string;
   password: string;
   loggedIn: boolean;
   JwtCookieKey: string;
+  redirect: string;
+  error: string;
 }
 
 interface IProps {}
@@ -28,12 +39,15 @@ class LoginPage extends Component<IProps, IState> {
       username: "",
       password: "",
       loggedIn: false,
-      JwtCookieKey: cookies.get("JwtCookieKey") || null
+      JwtCookieKey: cookies.get("JwtCookieKey") || null,
+      redirect: "",
+      error: ""
     };
 
     this.onChangeUsername = this.onChangeUsername.bind(this);
     this.onChangePassword = this.onChangePassword.bind(this);
     this.submit = this.submit.bind(this);
+    this.register = this.register.bind(this);
   }
 
   onChangeUsername(e: any) {
@@ -46,9 +60,11 @@ class LoginPage extends Component<IProps, IState> {
 
   submit() {
     if (this.state.username == null || this.state.username === "") {
+      this.setState({ error: errors.requiredFields });
       return;
     }
     if (this.state.password == null || this.state.password === "") {
+      this.setState({ error: errors.requiredFields });
       return;
     }
     axios
@@ -58,10 +74,18 @@ class LoginPage extends Component<IProps, IState> {
       })
       .then(response => {
         console.log(response.headers);
-        if (response.data == "") {
+        if (response.status == 200) {
           this.setState({ password: "", loggedIn: true });
+        } else {
         }
+      })
+      .catch(err => {
+        this.setState({ error: errors.invalidCredentials });
       });
+  }
+
+  register() {
+    this.setState({ redirect: "/register" });
   }
 
   render() {
@@ -69,31 +93,74 @@ class LoginPage extends Component<IProps, IState> {
     if (this.state.loggedIn === true || this.state.JwtCookieKey !== null) {
       redirect = <Redirect to="/" />;
     }
+    if (this.state.redirect != null && this.state.redirect != "") {
+      redirect = <Redirect to={this.state.redirect} />;
+    }
 
     return (
       <Box>
         {redirect}
         <Box className="bg"></Box>
         <Container className="loginContainer center">
-          <Container maxWidth="sm" className="loginForm">
+          <Container
+            maxWidth="sm"
+            className="center loginForm"
+            style={{ justifyContent: "center" }}
+          >
+            <div className="logoHolder">
+              <img src={logo} className="center logo" />
+            </div>
+            <div className="error" style={{ color: colors.errorRed }}>
+              {this.state.error}
+            </div>
             <FormGroup>
               <TextField
-                id="username"
-                label="E-mail"
-                type="mail"
+                variant="outlined"
+                margin="normal"
                 required
+                fullWidth
+                id="email"
+                label="E-mail"
+                name="email"
+                autoComplete="email"
+                autoFocus
                 onChange={this.onChangeUsername}
               />
               <TextField
-                id="password"
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                name="password"
                 label="Wachtwoord"
                 type="password"
-                required
+                id="password"
+                autoComplete="current-password"
                 onChange={this.onChangePassword}
               />
-              <Button color="primary" type="submit" onClick={this.submit}>
-                Login
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className="submit"
+                onClick={this.submit}
+              >
+                Inloggen
               </Button>
+              <Link
+                href="/register"
+                className="register"
+                style={{ width: "100%", textAlign: "center" }}
+              >
+                Registreren
+              </Link>
+              <Link
+                href="https://www.recoinvesting.nl"
+                style={{ width: "100%", textAlign: "center" }}
+              >
+                Meer informatie?
+              </Link>
             </FormGroup>
           </Container>
         </Container>

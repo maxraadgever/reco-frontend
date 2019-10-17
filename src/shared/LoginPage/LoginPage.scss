@@ -1,0 +1,27 @@
+body,
+html {
+  height: 100%;
+  background: #000000;
+}
+.bg {
+  background-image: url("../resources/img/login-background.jpg");
+  height: 100vh;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  opacity: 0.3;
+}
+
+.loginContainer {
+  position: fixed;
+  top: 100px;
+  margin: auto;
+  opacity: 1;
+  width: 100%;
+  max-width: 100% !important;
+}
+
+.loginForm {
+  background-color: #ffffff;
+  border-radius: 4px;
+}

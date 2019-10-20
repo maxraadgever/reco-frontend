@@ -73,10 +73,8 @@ class LoginPage extends Component<IProps, IState> {
         password: this.state.password
       })
       .then(response => {
-        console.log(response.headers);
-        if (response.status == 200) {
+        if (response.status === 200 && response.data === "") {
           this.setState({ password: "", loggedIn: true });
-        } else {
         }
       })
       .catch(err => {
@@ -93,7 +91,7 @@ class LoginPage extends Component<IProps, IState> {
     if (this.state.loggedIn === true || this.state.JwtCookieKey !== null) {
       redirect = <Redirect to="/" />;
     }
-    if (this.state.redirect != null && this.state.redirect != "") {
+    if (this.state.redirect !== null && this.state.redirect !== "") {
       redirect = <Redirect to={this.state.redirect} />;
     }
 
@@ -108,7 +106,7 @@ class LoginPage extends Component<IProps, IState> {
             style={{ justifyContent: "center" }}
           >
             <div className="logoHolder">
-              <img src={logo} className="center logo" />
+              <img src={logo} className="center logo" alt="RECO Investing" />
             </div>
             <div className="error" style={{ color: colors.errorRed }}>
               {this.state.error}

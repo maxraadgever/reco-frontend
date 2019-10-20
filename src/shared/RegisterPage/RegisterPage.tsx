@@ -10,15 +10,19 @@ import {
 import "./RegisterPage.scss";
 import logo from "../resources/img/reco.png";
 import { Redirect } from "react-router";
-import { DatePicker } from "material-ui";
+import { errors } from "../resources/text";
+import Axios from "axios";
+import { colors } from "../resources/styles";
 
 interface IState {
+  error: string;
   firstName: string;
   subName: string;
   lastName: string;
   email: string;
   dateOfBirth: Date;
   password: string;
+  passwordConfirm: string;
   registered: boolean;
   redirect: string;
 }
@@ -29,12 +33,14 @@ export default class RegisterPage extends Component<IProps, IState> {
   constructor(props: any) {
     super(props);
     this.state = {
+      error: "",
       firstName: "",
       subName: "",
       lastName: "",
       email: "",
       dateOfBirth: new Date(),
       password: "",
+      passwordConfirm: "",
       registered: false,
       redirect: ""
     };
@@ -51,11 +57,41 @@ export default class RegisterPage extends Component<IProps, IState> {
     } as Pick<IState, keyof IState>);
   }
 
-  onChangePassword(e: any) {
-    this.setState({ password: e.target.value });
-  }
+  submit() {
+    if (
+      this.state.firstName === "" ||
+      this.state.lastName === "" ||
+      this.state.email === "" ||
+      this.state.password === "" ||
+      this.state.passwordConfirm === ""
+    ) {
+      this.setState({ error: errors.requiredFields });
+      return;
+    }
+    if (this.state.password !== this.state.passwordConfirm) {
+      this.setState({ error: errors.passwordsDontMatch });
+      return;
+    }
 
-  submit() {}
+    Axios.post("/api/auth/register", {
+      firstName: this.state.firstName,
+      subName: this.state.subName,
+      lastName: this.state.lastName,
+      email: this.state.email,
+      dateOfBirth: this.state.dateOfBirth,
+      password: this.state.password
+    })
+      .then(response => {
+        if (response.status === 200 && response.data === "") {
+          this.setState({ redirect: "/login" });
+        } else {
+          this.setState({ error: errors.emailInUse });
+        }
+      })
+      .catch(err => {
+        this.setState({ error: errors.somethingHappened });
+      });
+  }
 
   login() {
     this.setState({ redirect: "/login" });
@@ -63,7 +99,7 @@ export default class RegisterPage extends Component<IProps, IState> {
 
   render() {
     let redirect;
-    if (this.state.redirect != null && this.state.redirect != "") {
+    if (this.state.redirect !== null && this.state.redirect !== "") {
       redirect = <Redirect to={this.state.redirect} />;
     }
     return (
@@ -77,7 +113,10 @@ export default class RegisterPage extends Component<IProps, IState> {
             style={{ justifyContent: "center" }}
           >
             <div className="logoHolder">
-              <img src={logo} className="center logo" />
+              <img src={logo} className="center logo" alt="RECO Investing" />
+            </div>
+            <div className="error" style={{ color: colors.errorRed }}>
+              {this.state.error}
             </div>
             <FormGroup>
               <TextField
@@ -144,19 +183,19 @@ export default class RegisterPage extends Component<IProps, IState> {
                 type="password"
                 id="password"
                 autoComplete="current-password"
-                onChange={this.onChangePassword}
+                onChange={this.handleChange}
               />
               <TextField
                 variant="outlined"
                 margin="normal"
                 required
                 fullWidth
-                name="password"
+                name="passwordConfirm"
                 label="Bevestig wachtwoord"
                 type="password"
                 id="password"
                 autoComplete="current-password"
-                onChange={this.onChangePassword}
+                onChange={this.handleChange}
               />
               <Button
                 type="submit"

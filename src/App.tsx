@@ -7,6 +7,7 @@ import { BrowserRouter } from "react-router-dom";
 import LoginPage from "./shared/LoginPage/LoginPage";
 import DashboardPage from "./investor/Dashboard/DashboardPage";
 import RegisterPage from "./shared/RegisterPage/RegisterPage";
+import Axios from "axios";
 
 interface IState {
   JwtCookieKey: string;
@@ -26,6 +27,11 @@ class App extends Component<IProps, IState> {
     this.state = {
       JwtCookieKey: cookies.get("JwtCookieKey") || null
     };
+  }
+
+  componentWillMount() {
+    Axios.defaults.withCredentials = true;
+    Axios.defaults.baseURL = process.env.REACT_APP_API_URL;
   }
 
   routes() {
@@ -50,8 +56,8 @@ class App extends Component<IProps, IState> {
     //@ts-ignore
     if (
       !JwtCookieKey &&
-      (window.location.pathname != "/login" &&
-        window.location.pathname != "/register")
+      (window.location.pathname !== "/login" &&
+        window.location.pathname !== "/register")
     ) {
       return <Redirect to="/login" />;
     }

@@ -105,6 +105,7 @@ export default class RegisterPage extends Component<IProps, IState> {
     return (
       <Box>
         {redirect}
+        <Box className="bg-black"></Box>
         <Box className="bg"></Box>
         <Container className="registerContainer center">
           <Container

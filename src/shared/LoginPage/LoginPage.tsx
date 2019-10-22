@@ -98,6 +98,7 @@ class LoginPage extends Component<IProps, IState> {
     return (
       <Box>
         {redirect}
+        <Box className="bg-black"></Box>
         <Box className="bg"></Box>
         <Container className="loginContainer center">
           <Container

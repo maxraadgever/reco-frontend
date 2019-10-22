@@ -5,7 +5,7 @@ import "./container.scss";
 class ContainerHeader extends Component {
   render() {
     return (
-      <Typography className="header" variant="h3" component="h3">
+      <Typography className="header" variant="h4" component="h3">
         {this.props.children}
       </Typography>
     );

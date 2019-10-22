@@ -5,6 +5,9 @@ import HeaderBar from "../../shared/Components/HeaderBar/HeaderBar";
 import { Switch, Route, Redirect } from "react-router";
 import MainContainer from "../../shared/Components/Containers/MainContainer";
 import { menus } from "../../shared/resources/text";
+import PortfolioPage from "../Portfolio/PortfolioPage";
+import PropertyPage from "../Properties/PropertyPage";
+import SettingsPage from "../Settings/SettingsPage";
 
 class DashboardPage extends Component {
   render() {
@@ -16,8 +19,15 @@ class DashboardPage extends Component {
           <Route path="/dashboard">
             <Dashboard />
           </Route>
-          <Route path="/portfolio"></Route>
-          <Route path="/properties"></Route>
+          <Route path="/portfolio">
+            <PortfolioPage />
+          </Route>
+          <Route path="/properties">
+            <PropertyPage />
+          </Route>
+          <Route path="/settings">
+            <SettingsPage />
+          </Route>
           <Route path="/">
             <Redirect to="/dashboard" />
           </Route>

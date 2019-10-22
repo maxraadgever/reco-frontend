@@ -65,9 +65,11 @@ class App extends Component<IProps, IState> {
 
   render() {
     return (
-      <BrowserRouter>
-        {this.routes()} {this.checkLoggedIn()}
-      </BrowserRouter>
+      <div className="App">
+        <BrowserRouter>
+          {this.routes()} {this.checkLoggedIn()}
+        </BrowserRouter>
+      </div>
     );
   }
 }

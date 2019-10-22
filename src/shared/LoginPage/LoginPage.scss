@@ -1,6 +1,5 @@
 body,
 html {
-  background-color: #000000;
   height: 100%;
 }
 .bg {
@@ -10,6 +9,11 @@ html {
   background-repeat: no-repeat;
   background-size: cover;
   opacity: 0.3;
+}
+.bg-black {
+  height: 100vh;
+  background-position: center;
+  background-color: #000000;
 }
 
 .loginContainer {

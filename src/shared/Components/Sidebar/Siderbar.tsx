@@ -14,6 +14,7 @@ import Dashboard from "@material-ui/icons/Dashboard";
 import { Role } from "../../resources/types/types";
 import { createStyles, Theme, makeStyles } from "@material-ui/core/styles";
 import { menus } from "../../resources/text";
+import { Redirect } from "react-router";
 
 const drawerWidth = 240;
 
@@ -36,7 +37,10 @@ const useStyles = makeStyles((theme: Theme) =>
       flexGrow: 1,
       padding: theme.spacing(3)
     },
-    toolbar: theme.mixins.toolbar
+    toolbar: theme.mixins.toolbar,
+    list: {
+      padding: 0
+    }
   })
 );
 
@@ -52,40 +56,57 @@ export default function SideBar(props: Props) {
     items = [
       {
         text: menus.Dashboard,
-        icon: <Dashboard />
+        icon: <Dashboard />,
+        link: "/dashboard"
       },
       {
         text: menus.Portfolio,
-        icon: <ShowChart />
+        icon: <ShowChart />,
+        link: "/portfolio"
       },
       {
         text: menus.Properties,
-        icon: <HomeWork />
+        icon: <HomeWork />,
+        link: "/properties"
       },
       {
         text: menus.Settings,
-        icon: <Settings />
+        icon: <Settings />,
+        link: "/settings"
       }
     ];
   } else if (props.type === Role.EMPLOYEE) {
     items = [
       {
         text: menus.Settings,
-        icon: <Settings />
+        icon: <Settings />,
+        link: "/settings"
       }
     ];
   } else if (props.type === Role.ADMIN) {
     items = [
       {
         text: menus.Settings,
-        icon: <Settings />
+        icon: <Settings />,
+        link: "/settings"
       }
     ];
   }
 
+  const [selectedIndex, setSelectedIndex] = React.useState();
+  const [redirect, setRedirect] = React.useState();
+  const handleListClick = (event: any, item: ISideBarItem, index: any) => {
+    console.log("SELECT: ", item, index);
+    setSelectedIndex(index);
+    setRedirect(<Redirect to={item.link} />);
+  };
+
+  console.log("SELECTED: ", selectedIndex);
+  console.log("PATH: ", window.location.pathname);
   return (
     <div>
       <div className={classes.toolbar} />
+      {redirect}
       <Drawer
         className={classes.drawer}
         variant="permanent"
@@ -94,9 +115,18 @@ export default function SideBar(props: Props) {
         }}
       >
         <div className={classes.toolbar} />
-        <List>
+        <List className={classes.list}>
           {items.map((item: ISideBarItem, index) => (
-            <ListItem button key={item.text}>
+            <ListItem
+              button
+              key={item.text}
+              selected={
+                selectedIndex === index ||
+                (selectedIndex === undefined &&
+                  window.location.pathname === item.link)
+              }
+              onClick={event => handleListClick(event, item, index)}
+            >
               <ListItemIcon>{item.icon}</ListItemIcon>
               <ListItemText primary={item.text} />
             </ListItem>
@@ -110,4 +140,5 @@ export default function SideBar(props: Props) {
 interface ISideBarItem {
   text: string;
   icon: any;
+  link: string;
 }

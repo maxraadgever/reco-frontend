@@ -6,11 +6,14 @@ import { Redirect, Route, Switch } from "react-router";
 import { BrowserRouter } from "react-router-dom";
 import LoginPage from "./shared/LoginPage/LoginPage";
 import DashboardPage from "./investor/Dashboard/DashboardPage";
+import RECODashboardPage from "./reco/Dashboard/DashboardPage";
 import RegisterPage from "./shared/RegisterPage/RegisterPage";
 import Axios from "axios";
+import { Role } from "./shared/resources/types/types";
 
 interface IState {
   JwtCookieKey: string;
+  role?: Role;
 }
 
 interface IProps {}
@@ -29,7 +32,7 @@ class App extends Component<IProps, IState> {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     Axios.defaults.withCredentials = true;
     Axios.defaults.baseURL = process.env.REACT_APP_API_URL;
   }
@@ -42,6 +45,9 @@ class App extends Component<IProps, IState> {
         </Route>
         <Route path="/register">
           <RegisterPage />
+        </Route>
+        <Route path="/reco">
+          <RECODashboardPage />
         </Route>
         <Route path="/">
           <DashboardPage />

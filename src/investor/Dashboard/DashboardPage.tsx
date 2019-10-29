@@ -8,11 +8,46 @@ import { menus } from "../../shared/resources/text";
 import PortfolioPage from "../Portfolio/PortfolioPage";
 import PropertyPage from "../Properties/PropertyPage";
 import SettingsPage from "../Settings/SettingsPage";
+import PropertyDetailPage from "../Properties/PropertyDetailPage";
+import Axios from "axios";
 
-class DashboardPage extends Component {
+interface IState {
+  role?: number;
+}
+
+class DashboardPage extends Component<any, IState> {
+  constructor(props: any) {
+    super(props);
+    this.state = {
+      role: undefined
+    };
+  }
+
   render() {
+    try {
+      if (this.state.role === undefined) {
+        Axios.get("/api/auth/role")
+          .then(response => {
+            console.log(response.data);
+            this.setState({ role: response.data.role });
+          })
+          .catch(response => {
+            console.log(response);
+            this.setState({ role: 0 });
+          });
+      }
+    } catch (error) {
+      console.error(error);
+    }
+
+    let redirect: any = "";
+    if (this.state.role && this.state.role > 0) {
+      redirect = <Redirect to="/reco" />;
+    }
+
     return (
       <div>
+        {redirect}
         <HeaderBar />
         <SideBar type={Role.INVESTOR} />
         <Switch>
@@ -22,6 +57,7 @@ class DashboardPage extends Component {
           <Route path="/portfolio">
             <PortfolioPage />
           </Route>
+          <Route exact path="/properties/:id" component={PropertyDetailPage} />
           <Route path="/properties">
             <PropertyPage />
           </Route>

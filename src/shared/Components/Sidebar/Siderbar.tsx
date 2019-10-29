@@ -51,6 +51,8 @@ type Props = {
 export default function SideBar(props: Props) {
   let classes = useStyles();
   let items: ISideBarItem[] = [];
+  const [selectedIndex, setSelectedIndex] = React.useState();
+  const [redirect, setRedirect] = React.useState();
 
   if (props.type === Role.INVESTOR) {
     items = [
@@ -93,16 +95,12 @@ export default function SideBar(props: Props) {
     ];
   }
 
-  const [selectedIndex, setSelectedIndex] = React.useState();
-  const [redirect, setRedirect] = React.useState();
   const handleListClick = (event: any, item: ISideBarItem, index: any) => {
-    console.log("SELECT: ", item, index);
     setSelectedIndex(index);
-    setRedirect(<Redirect to={item.link} />);
+    setRedirect(
+      <Redirect key={new Date().getTime()} to={item.link} strict={true} />
+    );
   };
-
-  console.log("SELECTED: ", selectedIndex);
-  console.log("PATH: ", window.location.pathname);
   return (
     <div>
       <div className={classes.toolbar} />
@@ -123,7 +121,7 @@ export default function SideBar(props: Props) {
               selected={
                 selectedIndex === index ||
                 (selectedIndex === undefined &&
-                  window.location.pathname === item.link)
+                  window.location.pathname.includes(item.link))
               }
               onClick={event => handleListClick(event, item, index)}
             >

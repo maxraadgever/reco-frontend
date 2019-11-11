@@ -43,7 +43,11 @@ class PropertyCard extends Component<IProps, IState> {
     if (process.env.REACT_APP_API_URL && property.mainImage) {
       const imageUrl = process.env.REACT_APP_API_URL + property.mainImage;
       cardMedia = (
-        <CardMedia className="media" image={imageUrl} title={property.park} />
+        <CardMedia
+          className="media"
+          image={imageUrl}
+          title={property.park ? property.park.name : "..."}
+        />
       );
     }
 

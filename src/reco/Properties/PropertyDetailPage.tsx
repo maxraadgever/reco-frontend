@@ -5,7 +5,6 @@ import { Grid } from "@material-ui/core";
 import { menus, propertyInfo } from "../../shared/resources/text";
 import "./PropertyPage.scss";
 import { api } from "../../shared/Util/Api";
-
 interface IProps {
   property: IProperty;
   match: any;

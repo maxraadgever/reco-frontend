@@ -1,16 +1,13 @@
 import React, { Component } from "react";
 import MainContainer from "../../shared/Components/Containers/MainContainer";
-import { menus, headers } from "../../shared/resources/text";
-import { Grid, Typography } from "@material-ui/core";
-import { IProperty } from "../../shared/resources/entities/Property";
-import PropertyCard from "../../shared/Components/Items/PropertyCard";
+import { menus, propertyInfo } from "../../shared/resources/text";
+import { Grid } from "@material-ui/core";
 import BasicTable, {
   ColumnTypes
 } from "../../shared/Components/Table/BasicTable";
-import { api } from "../../shared/Util/Api";
-import { propertyInfo } from "../../shared/resources/text";
-import { formatEuro } from "../../shared/Util/Util";
 import { Redirect } from "react-router";
+import { IProperty } from "../../shared/resources/entities/Property";
+import { api } from "../../shared/Util/Api";
 
 interface IProps {}
 
@@ -23,8 +20,8 @@ class PropertyPage extends Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {
-      properties: [],
-      redirect: ""
+      redirect: "",
+      properties: []
     };
   }
 
@@ -45,25 +42,6 @@ class PropertyPage extends Component<IProps, IState> {
       <MainContainer title={menus.Properties}>
         {this.state.redirect}
         <Grid container>
-          <Grid container item xs={12} spacing={3}>
-            {this.state.properties.map((property: IProperty) => {
-              return (
-                <Grid item xs={4}>
-                  <PropertyCard property={property} />
-                </Grid>
-              );
-            })}
-          </Grid>
-          <Grid item xs={12}>
-            <Typography
-              style={{ paddingTop: "12px" }}
-              color="textPrimary"
-              variant="h6"
-              gutterBottom
-            >
-              {headers.fullProperties}
-            </Typography>
-          </Grid>
           <Grid item xs={12}>
             <BasicTable
               columns={[
@@ -79,7 +57,7 @@ class PropertyPage extends Component<IProps, IState> {
                   )
                 },
                 {
-                  name: "Naam",
+                  name: "Name",
                   attr: "name"
                 },
                 {
@@ -97,7 +75,7 @@ class PropertyPage extends Component<IProps, IState> {
                   type: ColumnTypes.Euro
                 },
                 {
-                  name: "Totaal prijs",
+                  name: "Totaal prijse",
                   attr: "startPrice",
                   type: ColumnTypes.Euro
                 },
@@ -108,7 +86,7 @@ class PropertyPage extends Component<IProps, IState> {
               ]}
               data={this.state.properties}
               onClick={(event: any, identifier: any) => {
-                const link = "/properties/" + identifier;
+                const link = "/reco/properties/" + identifier;
                 this.setState({
                   redirect: <Redirect to={link} />
                 });

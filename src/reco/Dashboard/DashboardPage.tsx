@@ -5,6 +5,9 @@ import { Role } from "../../shared/resources/types/types";
 import { Switch, Route, Redirect } from "react-router";
 import { menus } from "../../shared/resources/text";
 import MainContainer from "../../shared/Components/Containers/MainContainer";
+import PropertyPage from "../Properties/PropertyPage";
+import PropertyDetailPage from "../Properties/PropertyDetailPage";
+import PropertyEdit from "../Properties/PropertyEdit";
 
 class DashboardPage extends Component {
   render() {
@@ -15,6 +18,11 @@ class DashboardPage extends Component {
         <Switch>
           <Route path="/reco/dashboard">
             <Dashboard />
+          </Route>
+          <Route path="/reco/properties/edit" component={PropertyEdit} />
+          <Route path="/reco/properties/:id" component={PropertyDetailPage} />
+          <Route path="/reco/properties">
+            <PropertyPage />
           </Route>
           <Route path="/">
             <Redirect to="/reco/dashboard" />

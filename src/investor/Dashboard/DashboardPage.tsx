@@ -9,7 +9,7 @@ import PortfolioPage from "../Portfolio/PortfolioPage";
 import PropertyPage from "../Properties/PropertyPage";
 import SettingsPage from "../Settings/SettingsPage";
 import PropertyDetailPage from "../Properties/PropertyDetailPage";
-import Axios from "axios";
+import { api } from "../../shared/Util/Api";
 
 interface IState {
   role?: number;
@@ -26,7 +26,8 @@ class DashboardPage extends Component<any, IState> {
   render() {
     try {
       if (this.state.role === undefined) {
-        Axios.get("/api/auth/role")
+        api
+          .get("/api/auth/role")
           .then(response => {
             console.log(response.data);
             this.setState({ role: response.data.role });

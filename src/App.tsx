@@ -8,7 +8,6 @@ import LoginPage from "./shared/LoginPage/LoginPage";
 import DashboardPage from "./investor/Dashboard/DashboardPage";
 import RECODashboardPage from "./reco/Dashboard/DashboardPage";
 import RegisterPage from "./shared/RegisterPage/RegisterPage";
-import Axios from "axios";
 import { Role } from "./shared/resources/types/types";
 
 interface IState {
@@ -30,11 +29,6 @@ class App extends Component<IProps, IState> {
     this.state = {
       JwtCookieKey: cookies.get("JwtCookieKey") || null
     };
-  }
-
-  componentDidMount() {
-    Axios.defaults.withCredentials = true;
-    Axios.defaults.baseURL = process.env.REACT_APP_API_URL;
   }
 
   routes() {

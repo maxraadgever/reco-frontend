@@ -3,5 +3,15 @@ export const menus = {
   Dashboard: "Dashboard",
   Portfolio: "Portfolio",
   Properties: "Woningen",
-  Settings: "Instellingen"
+  propertyActions: {
+    edit: "Woning wijzigen",
+    add: "Woning toevoegen"
+  },
+  Settings: "Instellingen",
+
+  steps: {
+    properties: "Eigenschappen",
+    financial: "Financieel",
+    confirm: "Bevestigen"
+  }
 };

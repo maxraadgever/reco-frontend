@@ -7,6 +7,7 @@ import { menus } from "../../resources/text";
 import { useCookies } from "react-cookie";
 import { Redirect } from "react-router";
 import { Button } from "@material-ui/core";
+import { colors } from "../../resources/styles";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -14,7 +15,8 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex"
     },
     appBar: {
-      zIndex: theme.zIndex.drawer + 1
+      zIndex: theme.zIndex.drawer + 1,
+      backgroundColor: colors.menuBlue
     },
     content: {
       flexGrow: 1

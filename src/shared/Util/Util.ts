@@ -1,4 +1,4 @@
-export const formatEuro = function(number: number) {
+export const formatEuro = function(number: number | string) {
   if (number == 0) return number;
   if (typeof number == "string") number = parseFloat(number);
   return formatThousands(number.toFixed(0));
@@ -14,3 +14,7 @@ export const formatThousands = function(number: number | string) {
   parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   return parts.join(",");
 };
+
+export function hasKey<O>(obj: O, key: keyof any): key is keyof O {
+  return key in obj;
+}

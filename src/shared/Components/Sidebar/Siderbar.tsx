@@ -15,6 +15,7 @@ import { Role } from "../../resources/types/types";
 import { createStyles, Theme, makeStyles } from "@material-ui/core/styles";
 import { menus } from "../../resources/text";
 import { Redirect } from "react-router";
+import { colors } from "../../resources/styles";
 
 const drawerWidth = 240;
 
@@ -31,15 +32,22 @@ const useStyles = makeStyles((theme: Theme) =>
       flexShrink: 0
     },
     drawerPaper: {
-      width: drawerWidth
+      width: drawerWidth,
+      background: colors.menuBlue,
+      color: colors.white
     },
     content: {
       flexGrow: 1,
       padding: theme.spacing(3)
     },
-    toolbar: theme.mixins.toolbar,
+    toolbar: {
+      ...theme.mixins.toolbar
+    },
     list: {
       padding: 0
+    },
+    icon: {
+      color: colors.white
     }
   })
 );
@@ -79,6 +87,11 @@ export default function SideBar(props: Props) {
     ];
   } else if (props.type === Role.EMPLOYEE) {
     items = [
+      {
+        text: menus.Properties,
+        icon: <HomeWork />,
+        link: "/reco/properties"
+      },
       {
         text: menus.Settings,
         icon: <Settings />,
@@ -125,7 +138,7 @@ export default function SideBar(props: Props) {
               }
               onClick={event => handleListClick(event, item, index)}
             >
-              <ListItemIcon>{item.icon}</ListItemIcon>
+              <ListItemIcon className={classes.icon}>{item.icon}</ListItemIcon>
               <ListItemText primary={item.text} />
             </ListItem>
           ))}

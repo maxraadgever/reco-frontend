@@ -11,8 +11,8 @@ import "./RegisterPage.scss";
 import logo from "../resources/img/reco.png";
 import { Redirect } from "react-router";
 import { errors } from "../resources/text";
-import Axios from "axios";
 import { colors } from "../resources/styles";
+import { api } from "../Util/Api";
 
 interface IState {
   error: string;
@@ -73,14 +73,15 @@ export default class RegisterPage extends Component<IProps, IState> {
       return;
     }
 
-    Axios.post("/api/auth/register", {
-      firstName: this.state.firstName,
-      subName: this.state.subName,
-      lastName: this.state.lastName,
-      email: this.state.email,
-      dateOfBirth: this.state.dateOfBirth,
-      password: this.state.password
-    })
+    api
+      .post("/api/auth/register", {
+        firstName: this.state.firstName,
+        subName: this.state.subName,
+        lastName: this.state.lastName,
+        email: this.state.email,
+        dateOfBirth: this.state.dateOfBirth,
+        password: this.state.password
+      })
       .then(response => {
         if (response.status === 200 && response.data === "") {
           this.setState({ redirect: "/login" });

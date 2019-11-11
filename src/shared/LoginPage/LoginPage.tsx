@@ -7,7 +7,6 @@ import {
   FormGroup,
   Link
 } from "@material-ui/core";
-import axios from "axios";
 import "./LoginPage.scss";
 import { Redirect } from "react-router";
 import { instanceOf } from "prop-types";
@@ -15,6 +14,7 @@ import { withCookies, Cookies } from "react-cookie";
 import logo from "../resources/img/reco.png";
 import { errors } from "../resources/text";
 import { colors } from "../resources/styles";
+import { api } from "../Util/Api";
 
 interface IState {
   username: string;
@@ -67,7 +67,7 @@ class LoginPage extends Component<IProps, IState> {
       this.setState({ error: errors.requiredFields });
       return;
     }
-    axios
+    api
       .post("/api/auth/login", {
         email: this.state.username,
         password: this.state.password

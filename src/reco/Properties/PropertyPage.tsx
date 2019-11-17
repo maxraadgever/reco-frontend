@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import MainContainer from "../../shared/Components/Containers/MainContainer";
 import { menus, propertyInfo } from "../../shared/resources/text";
-import { Grid } from "@material-ui/core";
+import { Grid, Button } from "@material-ui/core";
 import BasicTable, {
   ColumnTypes
 } from "../../shared/Components/Table/BasicTable";
@@ -37,11 +37,26 @@ class PropertyPage extends Component<IProps, IState> {
       });
   }
 
+  redirectAdd = () => {
+    this.setState({
+      redirect: <Redirect to="/reco/properties/edit" />
+    });
+  };
+
   render() {
     return (
       <MainContainer title={menus.Properties}>
         {this.state.redirect}
         <Grid container>
+          <Grid item xs={12}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={this.redirectAdd}
+            >
+              {menus.propertyActions.add}
+            </Button>
+          </Grid>
           <Grid item xs={12}>
             <BasicTable
               columns={[

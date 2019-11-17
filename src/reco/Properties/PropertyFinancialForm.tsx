@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { IProperty } from "../../shared/resources/entities/Property";
-import { FormGroup, TextField } from "@material-ui/core";
+import { FormGroup, TextField, InputAdornment } from "@material-ui/core";
 
 interface IProps {
   onChange: (name: string, value: string) => void;
@@ -23,21 +23,70 @@ class PropertyFinancialForm extends Component<IProps, IState> {
     });
   }
 
+  createTextField = (
+    key: string,
+    label: string,
+    value: any,
+    required = true,
+    autoFocus = false,
+    type = "text"
+  ) => {
+    let extra: any = {
+      required: required,
+      autoFocus: autoFocus,
+      type: type
+    };
+    if (type === "EURO") {
+      extra.type = "number";
+      extra.startAdornment = (
+        <InputAdornment position="start">€</InputAdornment>
+      );
+    }
+    return (
+      <TextField
+        variant="outlined"
+        margin="normal"
+        id={key}
+        label={label}
+        name={key}
+        value={value}
+        onChange={this.handleChange}
+        {...extra}
+      />
+    );
+  };
+
   render() {
     return (
       <div>
         <FormGroup>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            id="startPrice"
-            label="Aankoop prijs"
-            name="startPrice"
-            autoFocus
-            onChange={this.handleChange}
-            value={this.state.startPrice}
-          />
+          {this.createTextField(
+            "startPrice",
+            "Aankoop prijs",
+            this.state.startPrice,
+            true,
+            true
+          )}
+          {this.createTextField("yield", "Rendement", this.state.yield)}
+          {this.createTextField(
+            "totalTokens",
+            "Totaal tokens",
+            this.state.totalTokens,
+            true,
+            false,
+            "number"
+          )}
+          {this.createTextField(
+            "tokenPrice",
+            "Token prijs",
+            this.state.tokenPrice
+          )}
+          {this.createTextField(
+            "tokenName",
+            "Nexus token code",
+            this.state.tokenName
+          )}
+          {this.createTextField("stoDate", "STO Datum", this.state.stoDate)}
         </FormGroup>
       </div>
     );

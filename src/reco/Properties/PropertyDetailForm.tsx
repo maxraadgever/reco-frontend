@@ -12,10 +12,12 @@ import {
 import Select from "@material-ui/core/Select";
 import { propertyInfo } from "../../shared/resources/text";
 import { api } from "../../shared/Util/Api";
+import { IPark } from "../../shared/resources/entities/Park";
 
 interface IProps {
   onChange: (name: string, value: string) => void;
   property: IProperty;
+  parks: IPark[];
 }
 interface IState extends IProperty {
   inputParkWidth: any;
@@ -131,9 +133,10 @@ class PropertyDetailForm extends Component<IProps, IState> {
                 onChange={e => this.handleSelectChange("park", e)}
                 labelWidth={this.state.inputParkWidth}
               >
-                <MenuItem value={1}>Landal Greenparks</MenuItem>
-                <MenuItem value={2}>CenterParcs</MenuItem>
-                <MenuItem value={3}>Thirty</MenuItem>
+                {this.props.parks.map((park: IPark) => {
+                  console.log(park);
+                  return <MenuItem value={park.id}>park.name</MenuItem>;
+                })}
               </Select>
             </FormControl>
             {this.createTextField(

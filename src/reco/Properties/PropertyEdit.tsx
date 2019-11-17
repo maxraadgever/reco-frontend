@@ -7,6 +7,10 @@ import PropertyDetailForm from "./PropertyDetailForm";
 import PropertyFinancialForm from "./PropertyFinancialForm";
 import PropertyConfirmForm from "./PropertyConfirmForm";
 import "./PropertyPage.scss";
+import { api } from "../../shared/Util/Api";
+import { Redirect } from "react-router";
+import { colors } from "../../shared/resources/styles";
+import { IPark } from "../../shared/resources/entities/Park";
 
 interface IProps {
   property?: IProperty;
@@ -17,6 +21,8 @@ interface IState {
   activeStep: number;
   property: IProperty;
   currentView: any;
+  error: string;
+  parks: IPark[];
 }
 
 class PropertyEdit extends Component<IProps, IState> {
@@ -34,7 +40,9 @@ class PropertyEdit extends Component<IProps, IState> {
             houseNumber: "",
             type: "BUNGALOW"
           },
-      currentView: null
+      currentView: null,
+      error: "",
+      parks: []
     };
     this.handleNext = this.handleNext.bind(this);
     this.handleBack = this.handleBack.bind(this);
@@ -52,6 +60,7 @@ class PropertyEdit extends Component<IProps, IState> {
             <PropertyDetailForm
               onChange={this.handleChange}
               property={this.state.property}
+              parks={this.state.parks}
             />
           )
         });
@@ -93,6 +102,17 @@ class PropertyEdit extends Component<IProps, IState> {
       activeStep: step + 1,
       currentView: this.getStepContent(step + 1)
     });
+    if (step + 1 >= this.getSteps().length) {
+      api
+        .post("/api/properties", { property: this.state.property })
+        .then(response => {
+          if (response.status === 200 && response.data === "") {
+            this.setState({ redirect: "/reco/properties" });
+          } else {
+            this.setState({ error: response.data });
+          }
+        });
+    }
   }
 
   handleBack() {
@@ -103,8 +123,22 @@ class PropertyEdit extends Component<IProps, IState> {
     });
   }
 
+  componentDidMount() {
+    api.get("/api/parks").then(response => {
+      console.log(response.data.parks);
+      if (response.data.parks) {
+        this.setState({
+          parks: response.data.parks
+        });
+      }
+    });
+  }
+
   render() {
-    console.log("CURRENT PROPERTY: ", this.state.property);
+    let redirect;
+    if (this.state.redirect !== null && this.state.redirect !== "") {
+      redirect = <Redirect to={this.state.redirect} />;
+    }
     if (!this.state.currentView) {
       this.getStepContent(this.state.activeStep);
     }
@@ -124,7 +158,7 @@ class PropertyEdit extends Component<IProps, IState> {
         className="propertyEditPage"
         breadCrumbs={[{ text: menus.Properties, link: "/reco/properties" }]}
       >
-        {this.state.redirect}
+        {redirect}
         <Grid container>
           <Grid item xs={12}>
             <Stepper activeStep={this.state.activeStep}>
@@ -141,6 +175,9 @@ class PropertyEdit extends Component<IProps, IState> {
             </Stepper>
           </Grid>
           <Grid item xs={12}>
+            <div className="error" style={{ color: colors.errorRed }}>
+              {this.state.error}
+            </div>
             {this.state.currentView}
           </Grid>
           <Grid item xs={12} className="paginationControl">

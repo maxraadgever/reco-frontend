@@ -1,7 +1,7 @@
 export const formatEuro = function(number: number | string) {
   if (number === 0) return number;
   if (typeof number === "string") number = parseFloat(number);
-  return formatThousands(number.toFixed(0));
+  return formatThousands(number.toFixed(2));
 };
 
 export const formatThousands = function(number: number | string) {

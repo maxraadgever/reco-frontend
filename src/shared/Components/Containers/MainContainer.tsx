@@ -9,11 +9,12 @@ import {
 import "./container.scss";
 
 interface IProps {
-  title: string;
+  title?: string;
   children?: any;
   className?: any;
   breadCrumbs?: { text: string; link: string }[];
   breadCrumb?: string;
+  noStyle?: boolean;
 }
 
 interface IState {}
@@ -42,9 +43,12 @@ class MainContainer extends Component<IProps, IState> {
       );
     }
 
+    let classNames = "mainContainer";
+    classNames += this.props.noStyle ? " noStyle" : "";
+
     return (
       <Box component="span" m={1} className={this.props.className}>
-        <Container maxWidth="lg" className="mainContainer">
+        <Container maxWidth="lg" className={classNames}>
           {breadCrumbs}
           <Typography color="textPrimary" variant="h4" gutterBottom>
             {this.props.title}

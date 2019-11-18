@@ -23,6 +23,7 @@ interface IState {
   currentView: any;
   error: string;
   parks: IPark[];
+  imageIds: number[];
 }
 
 class PropertyEdit extends Component<IProps, IState> {
@@ -42,7 +43,8 @@ class PropertyEdit extends Component<IProps, IState> {
           },
       currentView: null,
       error: "",
-      parks: []
+      parks: [],
+      imageIds: []
     };
     this.handleNext = this.handleNext.bind(this);
     this.handleBack = this.handleBack.bind(this);
@@ -60,7 +62,7 @@ class PropertyEdit extends Component<IProps, IState> {
             <PropertyDetailForm
               onChange={this.handleChange}
               property={this.state.property}
-              parks={this.state.parks}
+              addImage={this.addImage}
             />
           )
         });
@@ -90,6 +92,12 @@ class PropertyEdit extends Component<IProps, IState> {
     }
   };
 
+  addImage = (id: number) => {
+    const ids = this.state.imageIds;
+    ids.push(id);
+    this.setState({ imageIds: ids });
+  };
+
   handleChange = (name: keyof IProperty, value: any) => {
     let property = this.state.property;
     property[name] = value;
@@ -106,7 +114,12 @@ class PropertyEdit extends Component<IProps, IState> {
       api
         .post("/api/properties", { property: this.state.property })
         .then(response => {
-          if (response.status === 200 && response.data === "") {
+          if (response.status === 201) {
+            api.post(
+              "/api/properties/" + response.data.property.id + "/connectImages",
+              { images: this.state.imageIds }
+            );
+
             this.setState({ redirect: "/reco/properties" });
           } else {
             this.setState({ error: response.data });
@@ -120,17 +133,6 @@ class PropertyEdit extends Component<IProps, IState> {
     this.setState({
       activeStep: step - 1,
       currentView: this.getStepContent(step - 1)
-    });
-  }
-
-  componentDidMount() {
-    api.get("/api/parks").then(response => {
-      console.log(response.data.parks);
-      if (response.data.parks) {
-        this.setState({
-          parks: response.data.parks
-        });
-      }
     });
   }
 

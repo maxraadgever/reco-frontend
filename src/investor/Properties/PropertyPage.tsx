@@ -9,7 +9,6 @@ import BasicTable, {
 } from "../../shared/Components/Table/BasicTable";
 import { api } from "../../shared/Util/Api";
 import { propertyInfo } from "../../shared/resources/text";
-import { formatEuro } from "../../shared/Util/Util";
 import { Redirect } from "react-router";
 
 interface IProps {}
@@ -46,7 +45,7 @@ class PropertyPage extends Component<IProps, IState> {
         {this.state.redirect}
         <Grid container>
           <Grid container item xs={12} spacing={3}>
-            {this.state.properties.map((property: IProperty) => {
+            {this.state.properties.slice(0, 3).map((property: IProperty) => {
               return (
                 <Grid item xs={4}>
                   <PropertyCard property={property} />
@@ -86,10 +85,9 @@ class PropertyPage extends Component<IProps, IState> {
                   name: "Type",
                   attr: "type",
                   render: attr =>
-                    propertyInfo.propertyType(attr as
-                      | "BUNGALOW"
-                      | "VILA"
-                      | "OTHER")
+                    propertyInfo.propertyType(
+                      attr as "BUNGALOW" | "VILA" | "OTHER"
+                    )
                 },
                 {
                   name: "Rendement",

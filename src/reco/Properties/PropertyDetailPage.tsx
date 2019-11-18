@@ -76,7 +76,7 @@ class PropertyDetailPage extends Component<IProps, IState> {
             </Grid>
           </Grid>
           <Grid item xs={8}>
-            <img src={imageSrc} className="mainImage" />
+            <img src={imageSrc} alt="not found" className="mainImage" />
           </Grid>
         </Grid>
       </MainContainer>

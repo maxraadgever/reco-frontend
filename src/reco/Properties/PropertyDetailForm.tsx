@@ -1,4 +1,4 @@
-import React, { Component, useEffect } from "react";
+import React, { Component } from "react";
 import { IProperty } from "../../shared/resources/entities/Property";
 import {
   FormGroup,
@@ -17,13 +17,14 @@ import { IPark } from "../../shared/resources/entities/Park";
 interface IProps {
   onChange: (name: string, value: string) => void;
   property: IProperty;
-  parks: IPark[];
+  addImage: (id: number) => void;
 }
 interface IState extends IProperty {
   inputParkWidth: any;
   inputTypeWidth: any;
   inputEnergyWidth: any;
   images: any[];
+  parks: IPark[];
 }
 
 class PropertyDetailForm extends Component<IProps, IState> {
@@ -38,6 +39,7 @@ class PropertyDetailForm extends Component<IProps, IState> {
       inputTypeWidth: 0,
       inputEnergyWidth: 0,
       images: [],
+      parks: [],
       ...this.props.property
     };
     this.handleChange = this.handleChange.bind(this);
@@ -99,16 +101,27 @@ class PropertyDetailForm extends Component<IProps, IState> {
       for (let i = 0; i < files.length; i++) {
         console.log(files[i]);
         const response = await api.sendFile(
-          "/api/properties/2/image",
+          "/api/properties/temp/image",
           files[i]
         );
 
         let imgArray = [...this.state.images];
         imgArray.push(response.data.path);
         this.setState({ images: imgArray });
+        this.props.addImage(response.data.id);
       }
     }
   };
+
+  componentWillMount() {
+    api.get("/api/parks").then(response => {
+      if (response.data.parks) {
+        this.setState({
+          parks: response.data.parks
+        });
+      }
+    });
+  }
 
   componentDidMount() {
     this.setState({
@@ -133,9 +146,12 @@ class PropertyDetailForm extends Component<IProps, IState> {
                 onChange={e => this.handleSelectChange("park", e)}
                 labelWidth={this.state.inputParkWidth}
               >
-                {this.props.parks.map((park: IPark) => {
-                  console.log(park);
-                  return <MenuItem value={park.id}>park.name</MenuItem>;
+                {this.state.parks.map((park: IPark) => {
+                  return (
+                    <MenuItem key={"park" + park.id} value={park.id}>
+                      {park.name}
+                    </MenuItem>
+                  );
                 })}
               </Select>
             </FormControl>
@@ -203,9 +219,9 @@ class PropertyDetailForm extends Component<IProps, IState> {
               </InputLabel>
               <Select
                 labelId="energySelectLabel"
-                id="type"
+                id="energyLabel"
                 value={this.state.energyLabel}
-                onChange={e => this.handleSelectChange("type", e)}
+                onChange={e => this.handleSelectChange("energyLabel", e)}
                 labelWidth={this.state.inputEnergyWidth}
               >
                 <MenuItem value={"A"}>A</MenuItem>

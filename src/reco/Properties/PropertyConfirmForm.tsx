@@ -197,9 +197,9 @@ class PropertyConfirmForm extends Component<IProps, IState> {
               this.state.tokenPrice
             )}
             {this.createTextField(
-              "tokenName",
+              "nexusId",
               "Nexus token code",
-              this.state.tokenName
+              this.state.nexusId
             )}
             {this.createTextField("stoDate", "STO Datum", this.state.stoDate)}
           </FormGroup>

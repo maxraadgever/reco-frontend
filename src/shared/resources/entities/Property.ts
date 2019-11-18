@@ -10,7 +10,7 @@ export interface IProperty {
   type: "BUNGALOW" | "VILA" | "OTHER";
   startPrice?: number;
   totalTokens?: number;
-  tokenName?: string;
+  nexusId?: string;
   mainImage?: string;
   capacity?: number;
   surfaceArea?: number;

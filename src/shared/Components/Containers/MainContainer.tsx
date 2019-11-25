@@ -48,7 +48,7 @@ class MainContainer extends Component<IProps, IState> {
 
     return (
       <Box component="span" m={1} className={this.props.className}>
-        <Container maxWidth="lg" className={classNames}>
+        <Container maxWidth="xl" className={classNames}>
           {breadCrumbs}
           <Typography color="textPrimary" variant="h4" gutterBottom>
             {this.props.title}

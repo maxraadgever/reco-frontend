@@ -10,6 +10,7 @@ import PropertyPage from "../Properties/PropertyPage";
 import SettingsPage from "../Settings/SettingsPage";
 import PropertyDetailPage from "../Properties/PropertyDetailPage";
 import { api } from "../../shared/Util/Api";
+import "./DashboardPage.scss";
 
 interface IState {
   role?: number;
@@ -51,24 +52,30 @@ class DashboardPage extends Component<any, IState> {
         {redirect}
         <HeaderBar />
         <SideBar type={Role.INVESTOR} />
-        <Switch>
-          <Route path="/dashboard">
-            <Dashboard />
-          </Route>
-          <Route path="/portfolio">
-            <PortfolioPage />
-          </Route>
-          <Route exact path="/properties/:id" component={PropertyDetailPage} />
-          <Route path="/properties">
-            <PropertyPage />
-          </Route>
-          <Route path="/settings">
-            <SettingsPage />
-          </Route>
-          <Route path="/">
-            <Redirect to="/dashboard" />
-          </Route>
-        </Switch>
+        <main className="content">
+          <Switch>
+            <Route path="/dashboard">
+              <Dashboard />
+            </Route>
+            <Route path="/portfolio">
+              <PortfolioPage />
+            </Route>
+            <Route
+              exact
+              path="/properties/:id"
+              component={PropertyDetailPage}
+            />
+            <Route path="/properties">
+              <PropertyPage />
+            </Route>
+            <Route path="/settings">
+              <SettingsPage />
+            </Route>
+            <Route path="/">
+              <Redirect to="/dashboard" />
+            </Route>
+          </Switch>
+        </main>
       </div>
     );
   }

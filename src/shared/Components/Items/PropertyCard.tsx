@@ -63,7 +63,7 @@ class PropertyCard extends Component<IProps, IState> {
             {propertyInfo.propertyType(property.type)}
           </Typography>
           <Typography variant="h5" component="h2">
-            {property.park} {property.houseNumber}
+            {property.name} {property.houseNumber}
           </Typography>
           <Typography className="subText" color="textSecondary">
             {price}

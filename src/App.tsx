@@ -1,5 +1,6 @@
 // App.jsx
 import React, { Component } from "react";
+
 import { instanceOf } from "prop-types";
 import { withCookies, Cookies } from "react-cookie";
 import { Redirect, Route, Switch } from "react-router";
@@ -56,8 +57,8 @@ class App extends Component<IProps, IState> {
     //@ts-ignore
     if (
       !JwtCookieKey &&
-      (window.location.pathname !== "/login" &&
-        window.location.pathname !== "/register")
+      window.location.pathname !== "/login" &&
+      window.location.pathname !== "/register"
     ) {
       return <Redirect to="/login" />;
     }

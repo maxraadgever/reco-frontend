@@ -1,6 +1,17 @@
+@import "./node_modules/react-vis/dist/style";
 .detailPage {
   .mainImage {
     width: 100%;
     height: 100%;
+  }
+
+  .actionButtons {
+    margin: 10px 15px;
+  }
+
+  .detailCard {
+    background-color: #fefefe;
+    border: solid 1px #e4e9f2;
+    padding: 32px;
   }
 }

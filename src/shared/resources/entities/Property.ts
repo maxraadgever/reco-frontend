@@ -5,15 +5,20 @@ export interface IProperty {
   createdDate?: Date;
   updatedDate?: Date;
   name: string;
-  park: IPark | null;
   houseNumber: string;
   type: "BUNGALOW" | "VILA" | "OTHER";
-  startPrice?: number;
-  totalTokens?: number;
-  nexusId?: string;
-  mainImage?: string;
   capacity?: number;
   surfaceArea?: number;
-  energyLabel?: string;
+  buildingYear?: number;
+  energyLabel?: "A" | "B" | "C" | "D" | "E" | "F";
+  startPrice?: number;
+  yield?: number;
+  yieldType?: "STATIC" | "DYNAMIC" | number;
+  tokenStartPrice?: number;
+  totalTokens?: number;
+  nexusId?: string;
+  stoStartDate?: Date;
+  mainImage?: string;
+  park: IPark | null;
   [key: string]: any;
 }

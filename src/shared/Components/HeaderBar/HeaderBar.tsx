@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { createStyles, Theme, makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -8,6 +8,8 @@ import { useCookies } from "react-cookie";
 import { Redirect } from "react-router";
 import { Button } from "@material-ui/core";
 import { colors } from "../../resources/styles";
+import { api } from "../../Util/Api";
+import { formatEuro } from "../../Util/Util";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -21,6 +23,9 @@ const useStyles = makeStyles((theme: Theme) =>
     content: {
       flexGrow: 1
     },
+    headerItem: {
+      paddingRight: 20
+    },
     menuButton: {
       marginRight: theme.spacing(2)
     },
@@ -28,10 +33,20 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function ClippedDrawer() {
-  const classes = useStyles();
+function ClippedDrawer() {
   const [cookies, setCookie, removeCookie] = useCookies(["JwtCookieKey"]);
+  const [balance, setBalance] = useState(0);
+  const [portfolio, setPortfolio] = useState(0);
+  const classes = useStyles();
   let [redirect, setRedirect] = React.useState();
+
+  useEffect(() => {
+    api.get(`/api/investor/balance`).then(response => {
+      setBalance(response.data.balance || 0);
+      setPortfolio(response.data.portfolio || 0);
+    });
+  }, []);
+
   const handleLogout = () => {
     removeCookie("JwtCookieKey");
     setRedirect(<Redirect to="/" />);
@@ -44,6 +59,12 @@ export default function ClippedDrawer() {
           <Typography className={classes.content} variant="h6" noWrap>
             {menus.Name}
           </Typography>
+          <Typography className={classes.headerItem} noWrap>
+            Vrije ruimte: €{formatEuro(balance)}
+          </Typography>
+          <Typography className={classes.headerItem} noWrap>
+            Portfolio: €{formatEuro(portfolio)}
+          </Typography>
           <Button color="inherit" onClick={handleLogout}>
             Logout
           </Button>
@@ -52,3 +73,5 @@ export default function ClippedDrawer() {
     </div>
   );
 }
+
+export default ClippedDrawer;

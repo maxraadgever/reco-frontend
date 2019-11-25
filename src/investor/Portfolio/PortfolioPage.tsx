@@ -78,10 +78,6 @@ class PortfolioPage extends Component<IProps, IState> {
               data={this.state.portfolio}
             />
           </Grid>
-
-          <Grid item xs={12}>
-            Hier komt een tabel
-          </Grid>
         </Grid>
       </MainContainer>
     );

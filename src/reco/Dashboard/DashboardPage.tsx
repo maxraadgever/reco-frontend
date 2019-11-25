@@ -15,19 +15,21 @@ class DashboardPage extends Component {
       <div>
         <HeaderBar />
         <SideBar type={Role.EMPLOYEE} />
-        <Switch>
-          <Route path="/reco/dashboard">
-            <Dashboard />
-          </Route>
-          <Route path="/reco/properties/edit" component={PropertyEdit} />
-          <Route path="/reco/properties/:id" component={PropertyDetailPage} />
-          <Route path="/reco/properties">
-            <PropertyPage />
-          </Route>
-          <Route path="/">
-            <Redirect to="/reco/dashboard" />
-          </Route>
-        </Switch>
+        <main className="content">
+          <Switch>
+            <Route path="/reco/dashboard">
+              <Dashboard />
+            </Route>
+            <Route path="/reco/properties/edit" component={PropertyEdit} />
+            <Route path="/reco/properties/:id" component={PropertyDetailPage} />
+            <Route path="/reco/properties">
+              <PropertyPage />
+            </Route>
+            <Route path="/">
+              <Redirect to="/reco/dashboard" />
+            </Route>
+          </Switch>
+        </main>
       </div>
     );
   }

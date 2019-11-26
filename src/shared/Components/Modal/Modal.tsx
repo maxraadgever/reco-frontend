@@ -35,6 +35,10 @@ class Modal extends Component<IProps, IState> {
   };
 
   handleClose = () => {
+    this.props.onClose();
+    this.setState({ open: false });
+  };
+  handleCancel = () => {
     this.setState({ open: false });
   };
 
@@ -52,7 +56,7 @@ class Modal extends Component<IProps, IState> {
           {this.props.children}
         </DialogContent>
         <DialogActions>
-          <Button onClick={this.handleClose} color="primary">
+          <Button onClick={this.handleCancel} color="primary">
             Annuleren
           </Button>
           <Button onClick={this.handleClose} color="primary">

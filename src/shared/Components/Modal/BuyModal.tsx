@@ -3,6 +3,7 @@ import Modal from "./Modal";
 import { FormGroup, Button, Grid, Typography } from "@material-ui/core";
 import { createTextField, formatEuro } from "../../Util/Util";
 import { IProperty } from "../../resources/entities/Property";
+import { api } from "../../Util/Api";
 
 interface IProps {
   property: IProperty;
@@ -34,6 +35,16 @@ class BuyModal extends Component<IProps, IState> {
     });
   };
 
+  handleClose = () => {
+    api.post("/api/transactions/buy", {
+      transaction: {
+        type: "BUY",
+        amount: this.state.tokenAmount
+      },
+      property: this.props.property.id
+    });
+  };
+
   openBuyModal = () => {
     this.setState({ open: true });
     this.modalRef.current.handleOpen();
@@ -43,6 +54,7 @@ class BuyModal extends Component<IProps, IState> {
     const tokenPrice = this.props.property.tokenStartPrice
       ? this.props.property.tokenStartPrice
       : 0;
+
     const tokenYield =
       (this.props.property.yield ? this.props.property.yield : 1) /
       (this.props.property.totalTokens ? this.props.property.totalTokens : 1);
@@ -68,6 +80,7 @@ class BuyModal extends Component<IProps, IState> {
           open={this.state.open}
           nextText="Koop"
           ref={this.modalRef}
+          onClose={this.handleClose}
         >
           <FormGroup>
             {createTextField({

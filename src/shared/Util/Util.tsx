@@ -42,7 +42,7 @@ export const createTextField = (options: ITextField) => {
 
   if (options.type === "EURO") {
     extra.type = "number";
-    extra.startAdornment = <InputAdornment position="start">€</InputAdornment>;
+    extra.startadornment = <InputAdornment position="start">€</InputAdornment>;
   }
 
   if (options.disabled) {

@@ -62,7 +62,7 @@ class PropertyFinancialForm extends Component<IProps, IState> {
     };
     if (type === "EURO") {
       extra.type = "number";
-      extra.startAdornment = (
+      extra.startadornment = (
         <InputAdornment position="start">€</InputAdornment>
       );
     }

@@ -1,8 +1,19 @@
 import React, { Component } from "react";
-import { Grid, Button, Typography, FormGroup } from "@material-ui/core";
+import {
+  Grid,
+  Button,
+  Typography,
+  FormGroup,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions
+} from "@material-ui/core";
 import { IProperty } from "../../resources/entities/Property";
 import Modal from "./Modal";
 import { createTextField, formatEuro } from "../../Util/Util";
+import { api } from "../../Util/Api";
 
 interface IProps {
   property: IProperty;
@@ -11,6 +22,8 @@ interface IProps {
 interface IState {
   tokenAmount: number;
   open: boolean;
+  status: number;
+  errorMsg: string;
   [key: string]: any;
 }
 
@@ -21,7 +34,9 @@ class SellModal extends Component<IProps, IState> {
 
     this.state = {
       tokenAmount: 1,
-      open: false
+      open: false,
+      status: 0,
+      errorMsg: ""
     };
 
     this.modalRef = React.createRef();
@@ -34,9 +49,34 @@ class SellModal extends Component<IProps, IState> {
     });
   };
 
+  handleClose = () => {
+    api
+      .post("/api/transactions/sell", {
+        transaction: {
+          type: "SELL",
+          amount: this.state.tokenAmount
+        },
+        property: this.props.property.id
+      })
+      .then(response => {
+        this.setState({ status: response.status });
+      })
+      .catch(error => {
+        console.log(error.response);
+        this.setState({
+          status: error.response.status,
+          errorMsg: error.response.data.error
+        });
+      });
+  };
+
   openModal = () => {
     this.setState({ open: true });
     this.modalRef.current.handleOpen();
+  };
+
+  closeSuccessModal = () => {
+    this.setState({ open: false, status: 0, errorMsg: "" });
   };
 
   render() {
@@ -65,6 +105,7 @@ class SellModal extends Component<IProps, IState> {
           open={this.state.open}
           nextText="Verkoop"
           ref={this.modalRef}
+          onClose={this.handleClose}
         >
           <FormGroup>
             {createTextField({
@@ -109,6 +150,29 @@ class SellModal extends Component<IProps, IState> {
             </Grid>
           </Grid>
         </Modal>
+        <Dialog
+          open={this.state.status === 200}
+          onClose={this.closeSuccessModal}
+        >
+          <DialogTitle id="form-dialog-title">Transactie voltooid!</DialogTitle>
+          <DialogContent>
+            <DialogContentText>De investering is geslaagd.</DialogContentText>
+          </DialogContent>
+        </Dialog>
+        <Dialog open={this.state.status > 200} onClose={this.closeSuccessModal}>
+          <DialogTitle id="form-dialog-title">Transactie ging fout</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              De investering is niet geslaagd.
+            </DialogContentText>
+            {this.state.errorMsg}
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.closeSuccessModal} color="primary">
+              Sluiten
+            </Button>
+          </DialogActions>
+        </Dialog>
       </Grid>
     );
   }

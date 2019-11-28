@@ -13,7 +13,7 @@ import { api } from "../../shared/Util/Api";
 import "./DashboardPage.scss";
 
 interface IState {
-  role?: number;
+  role?: Role.INVESTOR | Role.ADMIN | Role.EMPLOYEE;
 }
 
 class DashboardPage extends Component<any, IState> {
@@ -31,11 +31,11 @@ class DashboardPage extends Component<any, IState> {
           .get("/api/auth/role")
           .then(response => {
             console.log(response.data);
-            this.setState({ role: response.data.role });
+            this.setState({ role: Role[response.data.role as Role] });
           })
           .catch(response => {
             console.log(response);
-            this.setState({ role: 0 });
+            this.setState({ role: Role["INVESTOR"] });
           });
       }
     } catch (error) {
@@ -43,6 +43,7 @@ class DashboardPage extends Component<any, IState> {
     }
 
     let redirect: any = "";
+    console.log(this.state.role, Role.INVESTOR);
     if (this.state.role && this.state.role != Role.INVESTOR) {
       redirect = <Redirect to="/reco" />;
     }

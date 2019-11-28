@@ -47,7 +47,12 @@ class PropertyDetailPage extends Component<IProps, IState> {
     if (property) {
       address = property.name + " " + property.houseNumber;
       if (process.env.REACT_APP_API_URL && property.mainImage) {
-        imageSrc = process.env.REACT_APP_API_URL + property.mainImage;
+        imageSrc =
+          process.env.REACT_APP_API_URL +
+          "/api/properties/" +
+          property.id +
+          "/image/" +
+          property.mainImage;
       }
     }
 

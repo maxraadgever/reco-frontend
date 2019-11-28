@@ -19,7 +19,10 @@ class ImageSlider extends Component<IProps, {}> {
       <Grid container item xs={12}>
         <Carousel showStatus={false} showThumbs={false} centerMode={true}>
           {this.props.images.map((image: string) => {
-            const totalSrc = process.env.REACT_APP_API_URL + image;
+            const totalSrc =
+              process.env.REACT_APP_API_URL +
+              "/api/properties/0/image/" +
+              image;
             return (
               <div>
                 <img src={totalSrc} style={{ maxHeight: 650 }} />

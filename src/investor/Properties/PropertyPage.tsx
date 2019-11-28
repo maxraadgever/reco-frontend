@@ -69,10 +69,16 @@ class PropertyPage extends Component<IProps, IState> {
                 {
                   name: "",
                   attr: "mainImage",
-                  render: attr => (
+                  render: (attr, data) => (
                     <img
                       width={90}
-                      src={process.env.REACT_APP_API_URL + attr}
+                      src={
+                        process.env.REACT_APP_API_URL +
+                        "/api/properties/" +
+                        data.id +
+                        "/image/" +
+                        attr
+                      }
                       alt="not found"
                     />
                   )

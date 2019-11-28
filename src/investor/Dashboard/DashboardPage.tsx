@@ -43,7 +43,7 @@ class DashboardPage extends Component<any, IState> {
     }
 
     let redirect: any = "";
-    if (this.state.role && this.state.role > 0) {
+    if (this.state.role && this.state.role != Role.INVESTOR) {
       redirect = <Redirect to="/reco" />;
     }
 

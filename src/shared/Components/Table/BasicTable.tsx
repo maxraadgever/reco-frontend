@@ -19,7 +19,7 @@ type TColumnType = ColumnTypes.Euro | ColumnTypes.Text;
 export type TColumn = {
   name: string;
   attr: string;
-  render?: (attr: string) => any;
+  render?: (attr: string, data?: any) => any;
   type?: TColumnType;
 };
 
@@ -34,7 +34,7 @@ interface IState {}
 class BasicTable extends Component<IProps, IState> {
   renderCell(data: any, column: TColumn) {
     if (column.render) {
-      return column.render(data[column.attr]);
+      return column.render(data[column.attr], data);
     } else if (column.type) {
       return this.renderForType(column.type, data[column.attr]);
     } else {

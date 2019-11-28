@@ -259,7 +259,10 @@ class PropertyDetailForm extends Component<IProps, IState> {
           </Grid>
           <Grid item xs={12}>
             {this.state.images.map(image => {
-              let imageSrc = process.env.REACT_APP_API_URL + image;
+              let imageSrc =
+                process.env.REACT_APP_API_URL +
+                "/api/properties/0/image/" +
+                image;
               return (
                 <img
                   key={image}

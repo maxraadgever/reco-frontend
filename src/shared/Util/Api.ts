@@ -22,6 +22,10 @@ class Api {
       ...options
     });
   }
+
+  open(path: string) {
+    window.open(process.env.REACT_APP_API_URL + path, "_blank");
+  }
 }
 
 export const api = new Api();

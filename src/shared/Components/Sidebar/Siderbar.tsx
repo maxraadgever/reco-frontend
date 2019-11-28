@@ -10,6 +10,7 @@ import ShowChart from "@material-ui/icons/ShowChart";
 import HomeWork from "@material-ui/icons/HomeWork";
 import Settings from "@material-ui/icons/Settings";
 import Dashboard from "@material-ui/icons/Dashboard";
+import Person from "@material-ui/icons/Person";
 import { Role } from "../../resources/types/types";
 import { createStyles, Theme, makeStyles } from "@material-ui/core/styles";
 import { menus } from "../../resources/text";
@@ -86,6 +87,11 @@ export default function SideBar(props: Props) {
     ];
   } else if (props.type === Role.EMPLOYEE) {
     items = [
+      {
+        text: "Investeerders",
+        icon: <Person />,
+        link: "/reco/investors"
+      },
       {
         text: menus.Properties,
         icon: <HomeWork />,

@@ -18,6 +18,21 @@ export const formatThousands = function(number: number | string) {
   return parts.join(",");
 };
 
+export const formatName = function(
+  firstName: string,
+  lastName: string,
+  subName?: string
+): string {
+  let name = "";
+
+  if (firstName !== undefined && lastName != undefined) {
+    let sub = subName !== undefined ? " " + subName + " " : " ";
+    name = firstName + sub + lastName;
+  }
+
+  return name;
+};
+
 export function hasKey<O>(obj: O, key: keyof any): key is keyof O {
   return key in obj;
 }

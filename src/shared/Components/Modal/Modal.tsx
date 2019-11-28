@@ -39,13 +39,14 @@ class Modal extends Component<IProps, IState> {
     this.setState({ open: false });
   };
   handleCancel = () => {
+    this.props.onClose();
     this.setState({ open: false });
   };
 
   render() {
     return (
       <Dialog
-        open={this.state.open}
+        open={this.props.open}
         onClose={this.handleClose}
         fullWidth={true}
         maxWidth="sm"

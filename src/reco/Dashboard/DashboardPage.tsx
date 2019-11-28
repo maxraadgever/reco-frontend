@@ -8,6 +8,7 @@ import MainContainer from "../../shared/Components/Containers/MainContainer";
 import PropertyPage from "../Properties/PropertyPage";
 import PropertyDetailPage from "../Properties/PropertyDetailPage";
 import PropertyEdit from "../Properties/PropertyEdit";
+import InvestorPage from "../Investors/InvestorPage";
 
 class DashboardPage extends Component {
   render() {
@@ -25,6 +26,11 @@ class DashboardPage extends Component {
             <Route path="/reco/properties">
               <PropertyPage />
             </Route>
+
+            <Route path="/reco/investors">
+              <InvestorPage />
+            </Route>
+
             <Route path="/">
               <Redirect to="/reco/dashboard" />
             </Route>

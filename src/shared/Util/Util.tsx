@@ -1,5 +1,11 @@
 import React from "react";
-import { InputAdornment, TextField } from "@material-ui/core";
+import {
+  InputAdornment,
+  TextField,
+  OutlinedInput,
+  FormControl,
+  InputLabel
+} from "@material-ui/core";
 
 export const formatEuro = function(number: number | string) {
   if (number === 0) return number;
@@ -57,7 +63,9 @@ export const createTextField = (options: ITextField) => {
 
   if (options.type === "EURO") {
     extra.type = "number";
-    extra.startadornment = <InputAdornment position="start">€</InputAdornment>;
+    extra.InputProps = {
+      startAdornment: <InputAdornment position="start">€</InputAdornment>
+    };
   }
 
   if (options.disabled) {
@@ -66,14 +74,13 @@ export const createTextField = (options: ITextField) => {
 
   return (
     <TextField
-      variant="outlined"
-      margin="normal"
-      id={options.key}
       label={options.label}
-      name={options.key}
+      id={options.key}
+      variant="outlined"
       value={options.value}
+      name={options.key}
       onChange={options.handleChange}
-      fullWidth
+      margin="normal"
       {...extra}
     />
   );

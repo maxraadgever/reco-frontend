@@ -100,7 +100,7 @@ export default function SideBar(props: Props) {
       {
         text: menus.Settings,
         icon: <Settings />,
-        link: "/settings"
+        link: "/reco/settings"
       }
     ];
   } else if (props.type === Role.ADMIN) {

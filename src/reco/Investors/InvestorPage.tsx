@@ -32,6 +32,7 @@ class InvestorPage extends Component<IProps, IState> {
   closeVerifyModal = () => {
     console.log("CLOSE");
     this.setState({ openVerifyModal: false, investor: 0 });
+    this.componentWillMount();
   };
 
   componentWillMount() {

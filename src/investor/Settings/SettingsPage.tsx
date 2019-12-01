@@ -34,6 +34,14 @@ class SettingsPage extends Component<IProps, IState> {
       }
     }
   };
+  startBankCheck = async () => {
+    const response = await api.get(
+      `/api/investor/${this.state.investor.id}/startbankcheck`
+    );
+
+    console.log(response);
+    window.open(response.data.checkoutUrl);
+  };
 
   componentWillMount() {
     api.get("/api/investor").then(response => {
@@ -108,8 +116,19 @@ class SettingsPage extends Component<IProps, IState> {
                 </Button>
               </label>
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={6}>
               Bank rekening controle:
+            </Grid>
+            <Grid item xs={6}>
+              <Button
+                component="span"
+                className="uploadButton"
+                variant="contained"
+                color="primary"
+                onClick={this.startBankCheck}
+              >
+                Start controle
+              </Button>
             </Grid>
           </Grid>
         </Grid>

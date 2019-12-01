@@ -15,7 +15,7 @@ interface IProps {
   contentText?: string;
   children: any;
   open: boolean;
-  nextText: string;
+  nextText?: string;
 }
 
 interface IState {
@@ -35,15 +35,23 @@ class Modal extends Component<IProps, IState> {
   };
 
   handleClose = () => {
-    this.props.onClose();
+    this.props.onClose(true);
     this.setState({ open: false });
   };
   handleCancel = () => {
-    this.props.onClose();
+    this.props.onClose(false);
     this.setState({ open: false });
   };
 
   render() {
+    let nextButton = this.props.nextText ? (
+      <Button onClick={this.handleClose} color="primary">
+        {this.props.nextText}
+      </Button>
+    ) : (
+      ""
+    );
+
     return (
       <Dialog
         open={this.props.open}
@@ -60,9 +68,7 @@ class Modal extends Component<IProps, IState> {
           <Button onClick={this.handleCancel} color="primary">
             Annuleren
           </Button>
-          <Button onClick={this.handleClose} color="primary">
-            {this.props.nextText}
-          </Button>
+          {nextButton}
         </DialogActions>
       </Dialog>
     );

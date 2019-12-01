@@ -10,6 +10,7 @@ import { Button } from "@material-ui/core";
 import { colors } from "../../resources/styles";
 import { api } from "../../Util/Api";
 import { formatEuro } from "../../Util/Util";
+import DepositModal from "../Modal/DepositModal";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -37,6 +38,8 @@ function ClippedDrawer() {
   const [cookies, setCookie, removeCookie] = useCookies(["JwtCookieKey"]);
   const [balance, setBalance] = useState(0);
   const [portfolio, setPortfolio] = useState(0);
+  const [investor, setInvestor] = useState({ level: "NEW" });
+  const [depositModalOpen, setDepositModalOpen] = useState(false);
   const classes = useStyles();
   let [redirect, setRedirect] = React.useState();
 
@@ -45,16 +48,35 @@ function ClippedDrawer() {
       setBalance(response.data.balance || 0);
       setPortfolio(response.data.portfolio || 0);
     });
+    api.get(`/api/investor/`).then(response => {
+      setInvestor(response.data.investor);
+    });
   }, []);
 
   const handleLogout = () => {
+    setCookie("JwtCookieKey", "");
     removeCookie("JwtCookieKey");
-    setRedirect(<Redirect to="/" />);
+    setRedirect(<Redirect to="/login" />);
   };
+
+  const handleDeposit = () => {
+    if (investor) {
+      if (investor.level !== "NEW") {
+        setDepositModalOpen(true);
+      } else {
+        setRedirect(<Redirect to="/settings" />);
+      }
+    }
+  };
+
+  const handleDepositModalClose = () => {
+    setDepositModalOpen(false);
+  };
+
   return (
     <div className={classes.root}>
+      {redirect}
       <AppBar position="fixed" className={classes.appBar}>
-        {redirect}
         <Toolbar>
           <Typography className={classes.content} variant="h6" noWrap>
             {menus.Name}
@@ -65,11 +87,15 @@ function ClippedDrawer() {
           <Typography className={classes.headerItem} noWrap>
             Portfolio: €{formatEuro(portfolio)}
           </Typography>
+          <Button color="inherit" onClick={handleDeposit}>
+            Storten
+          </Button>{" "}
           <Button color="inherit" onClick={handleLogout}>
             Logout
           </Button>
         </Toolbar>
       </AppBar>
+      <DepositModal open={depositModalOpen} onClose={handleDepositModalClose} />
     </div>
   );
 }

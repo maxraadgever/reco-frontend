@@ -49,7 +49,12 @@ class BuyModal extends Component<IProps, IState> {
     });
   };
 
-  handleClose = () => {
+  handleClose = (next: boolean) => {
+    if (!next) {
+      this.setState({ open: false });
+      return;
+    }
+
     api
       .post("/api/transactions/buy", {
         transaction: {

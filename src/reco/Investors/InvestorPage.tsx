@@ -5,6 +5,7 @@ import BasicTable from "../../shared/Components/Table/BasicTable";
 import { formatName } from "../../shared/Util/Util";
 import { api } from "../../shared/Util/Api";
 import VerifyModal from "./VerifyModal";
+import Moment from "react-moment";
 interface IProps {}
 
 interface IState {
@@ -77,7 +78,10 @@ class InvestorPage extends Component<IProps, IState> {
                 },
                 {
                   name: "Aangemaakt",
-                  attr: "createdDate"
+                  attr: "createdDate",
+                  render: (attr, data) => {
+                    return <Moment format="DD/MM/YYYY">{attr}</Moment>;
+                  }
                 },
                 {
                   name: "",
@@ -120,7 +124,10 @@ class InvestorPage extends Component<IProps, IState> {
                 },
                 {
                   name: "Aangemaakt",
-                  attr: "createdDate"
+                  attr: "createdDate",
+                  render: (attr, data) => {
+                    return <Moment format="DD/MM/YYYY">{attr}</Moment>;
+                  }
                 },
                 {
                   name: "",

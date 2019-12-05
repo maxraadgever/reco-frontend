@@ -7,6 +7,8 @@ import PortfolioHeaderBar from "./PortfolioHeaderBar";
 import BasicTable, {
   ColumnTypes
 } from "../../shared/Components/Table/BasicTable";
+import emptyState from "../../shared/resources/img/emptyState/portfolio.png";
+
 import { api } from "../../shared/Util/Api";
 
 interface IProps {}
@@ -42,9 +44,6 @@ class PortfolioPage extends Component<IProps, IState> {
             <PortfolioHeaderBar />
           </Grid>
           <Grid className="mainContent" item xs={12}>
-            <Typography color="textPrimary" variant="h6" gutterBottom>
-              Open postities
-            </Typography>
             <BasicTable
               columns={[
                 {
@@ -76,6 +75,7 @@ class PortfolioPage extends Component<IProps, IState> {
                 }
               ]}
               data={this.state.portfolio}
+              emptyState={emptyState}
             />
           </Grid>
         </Grid>

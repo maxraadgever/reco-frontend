@@ -41,10 +41,11 @@ class PropertyPage extends Component<IProps, IState> {
 
   render() {
     return (
-      <MainContainer title={menus.Properties}>
+      // <MainContainer title={menus.Properties}>
+      <MainContainer noStyle>
         {this.state.redirect}
         <Grid container>
-          <Grid container item xs={12} spacing={3}>
+          <Grid container spacing={3}>
             {this.state.properties.slice(0, 3).map((property: IProperty) => {
               return (
                 <Grid item xs={4}>
@@ -53,17 +54,7 @@ class PropertyPage extends Component<IProps, IState> {
               );
             })}
           </Grid>
-          <Grid item xs={12}>
-            <Typography
-              style={{ paddingTop: "12px" }}
-              color="textPrimary"
-              variant="h6"
-              gutterBottom
-            >
-              {headers.fullProperties}
-            </Typography>
-          </Grid>
-          <Grid item xs={12}>
+          <Grid className="mainContent" item xs={12}>
             <BasicTable
               columns={[
                 {

@@ -4,6 +4,7 @@ import { menus } from "../../shared/resources/text";
 import { api } from "../../shared/Util/Api";
 import { Grid, Typography, Button } from "@material-ui/core";
 import AccountHeaderBar from "./AccountHeaderBar";
+import Moment from "react-moment";
 
 interface IProps {}
 
@@ -52,6 +53,15 @@ class SettingsPage extends Component<IProps, IState> {
   }
 
   render() {
+    let uploadText = "Upload";
+    let bankCheckText = "Start controle";
+    let extraButtonProps: any = {};
+    if (this.state.investor && this.state.investor.level !== "NEW") {
+      uploadText = "Goedgekeurd";
+      bankCheckText = "Goedgekeurd";
+      extraButtonProps.disabled = true;
+    }
+
     return (
       <MainContainer noStyle>
         {this.state.redirect}
@@ -66,24 +76,38 @@ class SettingsPage extends Component<IProps, IState> {
                 Account
               </Typography>
             </Grid>
-            <Grid item xs={8}>
-              Voornaam
+            <Grid item xs={3}>
+              Voornaam:
             </Grid>
-            <Grid item xs={4}>
-              Tussenvoegsel
+            <Grid item xs={9}>
+              {this.state.investor.firstName}
+            </Grid>
+            <Grid item xs={3}>
+              Tussenvoegsel:
+            </Grid>
+            <Grid item xs={9}>
+              {this.state.investor.subName}
             </Grid>
 
-            <Grid item xs={12}>
-              Achternaam
+            <Grid item xs={3}>
+              Achternaam:
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={9}>
+              {this.state.investor.lastName}
+            </Grid>
+            <Grid item xs={3}>
               E-mailadres
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={9}>
+              {this.state.investor.lastName}
+            </Grid>
+            <Grid item xs={3}>
               Geboortedatum
             </Grid>
-            <Grid item xs={12}>
-              Wachtwoord
+            <Grid item xs={9}>
+              <Moment format="DD/MM/YYYY">
+                {this.state.investor.dateOfBirth}
+              </Moment>
             </Grid>
           </Grid>
           <Grid className="mainContent" container item xs={6}>
@@ -111,8 +135,10 @@ class SettingsPage extends Component<IProps, IState> {
                   className="uploadButton"
                   variant="contained"
                   color="primary"
+                  fullWidth
+                  {...extraButtonProps}
                 >
-                  Upload
+                  {uploadText}
                 </Button>
               </label>
             </Grid>
@@ -126,8 +152,9 @@ class SettingsPage extends Component<IProps, IState> {
                 variant="contained"
                 color="primary"
                 onClick={this.startBankCheck}
+                {...extraButtonProps}
               >
-                Start controle
+                {bankCheckText}
               </Button>
             </Grid>
           </Grid>

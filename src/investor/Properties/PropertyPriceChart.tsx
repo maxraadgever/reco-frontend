@@ -8,7 +8,8 @@ import {
   YAxis,
   LineMarkSeries,
   Hint,
-  FlexibleWidthXYPlot
+  FlexibleWidthXYPlot,
+  AreaSeries
 } from "react-vis";
 import { api } from "../../shared/Util/Api";
 import { IProperty } from "../../shared/resources/entities/Property";
@@ -76,12 +77,13 @@ class PropertyPriceChart extends Component<IProps, IState> {
         >
           <XAxis title="Periode" />
           <YAxis title="Waarde token (€)" />
+          <AreaSeries data={this.state.data} opacity={0.7} color="#ddf4ec" />
           <LineMarkSeries
             style={{
               strokeWidth: "3px"
             }}
-            lineStyle={{ stroke: "blue" }}
-            markStyle={{ stroke: "blue" }}
+            lineStyle={{ stroke: "#20b984" }}
+            markStyle={{ stroke: "#20b984" }}
             onValueMouseOver={d => this.setState({ hovered: d })}
             onValueMouseOut={d => this.setState({ hovered: false })}
             data={this.state.data}

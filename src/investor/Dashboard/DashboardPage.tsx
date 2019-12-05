@@ -51,13 +51,13 @@ class DashboardPage extends Component<any, IState> {
     return (
       <div>
         {redirect}
-        <HeaderBar />
+        <HeaderBar type={Role.INVESTOR} />
         <SideBar type={Role.INVESTOR} />
         <main className="content">
           <Switch>
-            <Route path="/dashboard">
+            {/* <Route path="/dashboard">
               <Dashboard />
-            </Route>
+            </Route> */}
             <Route path="/portfolio">
               <PortfolioPage />
             </Route>
@@ -73,7 +73,7 @@ class DashboardPage extends Component<any, IState> {
               <SettingsPage />
             </Route>
             <Route path="/">
-              <Redirect to="/dashboard" />
+              <Redirect to="/portfolio" />
             </Route>
           </Switch>
         </main>

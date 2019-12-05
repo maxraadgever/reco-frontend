@@ -8,6 +8,7 @@ import {
 } from "@material-ui/core";
 import ShowChart from "@material-ui/icons/ShowChart";
 import HomeWork from "@material-ui/icons/HomeWork";
+import Deck from "@material-ui/icons/Deck";
 import Settings from "@material-ui/icons/Settings";
 import Dashboard from "@material-ui/icons/Dashboard";
 import Person from "@material-ui/icons/Person";
@@ -65,11 +66,6 @@ export default function SideBar(props: Props) {
   if (props.type === Role.INVESTOR) {
     items = [
       {
-        text: menus.Dashboard,
-        icon: <Dashboard />,
-        link: "/dashboard"
-      },
-      {
         text: menus.Portfolio,
         icon: <ShowChart />,
         link: "/portfolio"
@@ -96,6 +92,11 @@ export default function SideBar(props: Props) {
         text: menus.Properties,
         icon: <HomeWork />,
         link: "/reco/properties"
+      },
+      {
+        text: menus.Parks,
+        icon: <Deck />,
+        link: "/reco/parks"
       },
       {
         text: menus.Settings,

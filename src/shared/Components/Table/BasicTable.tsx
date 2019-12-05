@@ -5,7 +5,8 @@ import {
   TableRow,
   TableHead,
   TableCell,
-  TableBody
+  TableBody,
+  Grid
 } from "@material-ui/core";
 import { formatEuro } from "../../Util/Util";
 
@@ -27,6 +28,7 @@ interface IProps {
   columns: TColumn[];
   data: any[];
   onClick?: (event: any, identifier: any) => void;
+  emptyState?: any;
 }
 
 interface IState {}
@@ -53,32 +55,43 @@ class BasicTable extends Component<IProps, IState> {
     if (this.props.onClick) {
       rowClass += " clickable";
     }
+    let emptyState = null;
+    if (!this.props.data || this.props.data.length === 0) {
+      emptyState = (
+        <Grid item xs={12} alignContent="center" justify="center">
+          <img src={this.props.emptyState} alt="" style={{ paddingTop: 10 }} />
+        </Grid>
+      );
+    }
 
     return (
-      <Table>
-        <TableHead>
-          <TableRow>
-            {this.props.columns.map((column: TColumn) => (
-              <TableCell key={column.name}>{column.name}</TableCell>
-            ))}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {this.props.data.map((data: any) => (
-            <TableRow
-              key={data.id}
-              onClick={event => this.handleClick(event, data.id)}
-              className={rowClass}
-            >
+      <Grid container>
+        <Table>
+          <TableHead>
+            <TableRow>
               {this.props.columns.map((column: TColumn) => (
-                <TableCell key={data.id + column.name}>
-                  {this.renderCell(data, column)}
-                </TableCell>
+                <TableCell key={column.name}>{column.name}</TableCell>
               ))}
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHead>
+          <TableBody>
+            {this.props.data.map((data: any) => (
+              <TableRow
+                key={data.id}
+                onClick={event => this.handleClick(event, data.id)}
+                className={rowClass}
+              >
+                {this.props.columns.map((column: TColumn) => (
+                  <TableCell key={data.id + column.name}>
+                    {this.renderCell(data, column)}
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+        {emptyState}
+      </Grid>
     );
   }
 

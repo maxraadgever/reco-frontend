@@ -11,6 +11,7 @@ import { colors } from "../../resources/styles";
 import { api } from "../../Util/Api";
 import { formatEuro } from "../../Util/Util";
 import DepositModal from "../Modal/DepositModal";
+import { Role } from "../../resources/types/types";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -34,7 +35,11 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-function ClippedDrawer() {
+type Props = {
+  type: Role;
+};
+
+function ClippedDrawer(props: Props) {
   const [cookies, setCookie, removeCookie] = useCookies(["JwtCookieKey"]);
   const [balance, setBalance] = useState(0);
   const [portfolio, setPortfolio] = useState(0);
@@ -59,18 +64,20 @@ function ClippedDrawer() {
     setRedirect(<Redirect to="/login" />);
   };
 
-  const handleDeposit = () => {
-    if (investor) {
-      if (investor.level !== "NEW") {
-        setDepositModalOpen(true);
-      } else {
-        setRedirect(<Redirect to="/settings" />);
-      }
+  const extraHeaders = () => {
+    console.log("INVESTOR: ", investor);
+    if (investor && props.type === Role.INVESTOR) {
+      return (
+        <React.Fragment>
+          <Typography className={classes.headerItem} noWrap>
+            Vrije ruimte: €{formatEuro(balance)}
+          </Typography>
+          <Typography className={classes.headerItem} noWrap>
+            Portfolio: €{formatEuro(portfolio)}
+          </Typography>{" "}
+        </React.Fragment>
+      );
     }
-  };
-
-  const handleDepositModalClose = () => {
-    setDepositModalOpen(false);
   };
 
   return (
@@ -81,21 +88,12 @@ function ClippedDrawer() {
           <Typography className={classes.content} variant="h6" noWrap>
             {menus.Name}
           </Typography>
-          <Typography className={classes.headerItem} noWrap>
-            Vrije ruimte: €{formatEuro(balance)}
-          </Typography>
-          <Typography className={classes.headerItem} noWrap>
-            Portfolio: €{formatEuro(portfolio)}
-          </Typography>
-          <Button color="inherit" onClick={handleDeposit}>
-            Storten
-          </Button>{" "}
+          {extraHeaders()}
           <Button color="inherit" onClick={handleLogout}>
             Logout
           </Button>
         </Toolbar>
       </AppBar>
-      <DepositModal open={depositModalOpen} onClose={handleDepositModalClose} />
     </div>
   );
 }

@@ -56,18 +56,6 @@ class PropertyDetailPage extends Component<IProps, IState> {
       });
   }
 
-  renderImageSlider = () => {
-    if (this.state.images && this.state.images.length > 0) {
-      return <ImageSlider images={this.state.images} />;
-    } else {
-      return (
-        <Grid item xs={12}>
-          Chart loading...
-        </Grid>
-      );
-    }
-  };
-
   renderChart = () => {
     if (this.state.property.id != 0) {
       return <PropertyPriceChart property={this.state.property} />;
@@ -82,103 +70,58 @@ class PropertyDetailPage extends Component<IProps, IState> {
 
   renderPropertyDetails = (property: IProperty) => {
     return (
-      <Grid item container xs={6}>
+      <Grid container className="propertyDetails">
         <Grid container>
-          <Grid item xs={6}>
-            {propertyInfo.name}:
+          <Grid item xs={4} className="label">
+            <div className="labelText">{propertyInfo.type}:</div>
+            <div className="value">
+              {propertyInfo.propertyType(property.type)}
+            </div>
           </Grid>
-          <Grid item xs={6}>
-            {property.name}
+          <Grid item xs={4} className="label">
+            <div className="labelText">{propertyInfo.capacity}:</div>
+            <div className="value">{property.capacity} personen</div>
+          </Grid>
+          <Grid item xs={4} className="label">
+            <div className="labelText">{propertyInfo.surfaceArea}:</div>
+            <div className="value">{property.surfaceArea} m²</div>
+          </Grid>
+        </Grid>
+
+        <Grid container>
+          <Grid item xs={4} className="label">
+            <div className="labelText">{propertyInfo.buildingYear}:</div>
+            <div className="value">{property.buildingYear}</div>
+          </Grid>
+          <Grid item xs={4} className="label">
+            <div className="labelText">{propertyInfo.energyLabel}:</div>
+            <div className="value">{property.energyLabel}</div>
+          </Grid>
+          <Grid item xs={4} className="label">
+            <div className="labelText">{propertyInfo.startPrice}:</div>
+            <div className="value">
+              {"€" + formatEuro(property.startPrice || 0)}
+            </div>
           </Grid>
         </Grid>
         <Grid container>
-          <Grid item xs={6}>
-            {propertyInfo.houseNumber}:
+          <Grid item xs={4} className="label">
+            <div className="labelText">{propertyInfo.yield}:</div>
+            <div className="value">{"€" + formatEuro(property.yield || 0)}</div>
           </Grid>
-          <Grid item xs={6}>
-            {property.houseNumber}
+          <Grid item xs={4} className="label">
+            <div className="labelText">{propertyInfo.yieldType}:</div>
+            <div className="value">
+              {propertyInfo.propertyYieldType(
+                property.yieldType ? property.yieldType : "STATIC"
+              )}
+            </div>
           </Grid>
-        </Grid>
-        <Grid container>
-          <Grid item xs={6}>
-            {propertyInfo.type}:
-          </Grid>
-          <Grid item xs={6}>
-            {propertyInfo.propertyType(property.type)}
-          </Grid>
-        </Grid>
-        <Grid container>
-          <Grid item xs={6}>
-            {propertyInfo.capacity}:
-          </Grid>
-          <Grid item xs={6}>
-            {property.capacity}
-          </Grid>
-        </Grid>
-        <Grid container>
-          <Grid item xs={6}>
-            {propertyInfo.surfaceArea}:
-          </Grid>
-          <Grid item xs={6}>
-            {property.surfaceArea}
-          </Grid>
-        </Grid>
-        <Grid container>
-          <Grid item xs={6}>
-            {propertyInfo.buildingYear}:
-          </Grid>
-          <Grid item xs={6}>
-            {property.buildingYear}
-          </Grid>
-        </Grid>
-        <Grid container>
-          <Grid item xs={6}>
-            {propertyInfo.energyLabel}:
-          </Grid>
-          <Grid item xs={6}>
-            {property.energyLabel}
-          </Grid>
-        </Grid>
-        <Grid container>
-          <Grid item xs={6}>
-            {propertyInfo.startPrice}:
-          </Grid>
-          <Grid item xs={6}>
-            {"€" + formatEuro(property.startPrice || 0)}
-          </Grid>
-        </Grid>
-        <Grid container>
-          <Grid item xs={6}>
-            {propertyInfo.yield}:
-          </Grid>
-          <Grid item xs={6}>
-            {"€" + formatEuro(property.yield || 0)}
-          </Grid>
-        </Grid>
-        <Grid container>
-          <Grid item xs={6}>
-            {propertyInfo.yieldType}:
-          </Grid>
-          <Grid item xs={6}>
-            {propertyInfo.propertyYieldType(
-              property.yieldType ? property.yieldType : "STATIC"
-            )}
-          </Grid>
-        </Grid>
-        <Grid container>
-          <Grid item xs={6}>
-            {propertyInfo.tokenStartPrice}:
-          </Grid>
-          <Grid item xs={6}>
-            {"€" + formatEuro(property.tokenStartPrice || 0)}
-          </Grid>
-        </Grid>
-        <Grid container>
-          <Grid item xs={6}>
-            {propertyInfo.totalTokens}:
-          </Grid>
-          <Grid item xs={6}>
-            {formatThousands(property.totalTokens || 0)}
+          <Grid item xs={4} className="label">
+            <div className="labelText">{propertyInfo.tokenStartPrice}:</div>
+            <div className="value">
+              {"€" + formatEuro(property.tokenStartPrice || 0)}
+            </div>
           </Grid>
         </Grid>
       </Grid>
@@ -187,70 +130,77 @@ class PropertyDetailPage extends Component<IProps, IState> {
 
   render() {
     const property = this.state.property;
-    let address = "";
+    let propertyName = "";
     let imageSrc = "";
     if (property) {
-      address = property.name + " " + property.houseNumber;
-      if (process.env.REACT_APP_API_URL && property.mainImage) {
+      if (process.env.REACT_APP_API_URL && this.state.images.length > 0) {
         imageSrc =
           process.env.REACT_APP_API_URL +
           "/api/properties/" +
           property.id +
           "/image/" +
-          property.mainImage;
+          this.state.images[0];
       }
     }
 
+    if (this.state.property) {
+      propertyName = `${property.name} ${property.houseNumber} `;
+    }
+    let currentPrice = "0.00";
+    let currentTokenPrice = "0.00";
+    if (this.state.property && this.state.property.taxation) {
+      currentPrice = this.state.property.taxation.amount;
+      currentTokenPrice = this.state.property.taxation.tokenPrice;
+    }
+
     return (
-      <div className="detailPage">
-        <MainContainer
-          title={address}
-          breadCrumb="Detail"
-          breadCrumbs={[{ text: menus.Properties, link: "/properties" }]}
-        >
-          <Grid container spacing={1} style={{ paddingBottom: 32 }}>
-            {/* <Grid container item xs={3} spacing={3}></Grid> */}
-            <Grid container spacing={3}>
-              {this.renderImageSlider()}
-            </Grid>
-            {/* <Grid container item xs={3} spacing={3}></Grid> */}
-          </Grid>
-        </MainContainer>
-        <Grid container xs={12}>
-          <Grid item container xs={6} className="detailCard">
-            <Grid item xs={12}>
-              <Typography color="textPrimary" variant="h6" gutterBottom>
-                Eigenschappen
-              </Typography>
-            </Grid>
-            <Grid container item xs={12}>
-              {this.renderPropertyDetails(this.state.property)}
-            </Grid>
-          </Grid>
-          <Grid item container xs={6} className="detailCard">
-            <Grid item xs={12}>
-              <Typography color="textPrimary" variant="h6" gutterBottom>
-                Financieel
-              </Typography>
-            </Grid>
-            <Grid container item xs={12}>
+      <MainContainer noStyle>
+        <Grid container spacing={2} className="detailContainer">
+          <Grid item xs={12} className="headerImage">
+            <img src={imageSrc} />
+            <Grid container className="titleContainer">
               <Grid item xs={6}>
-                Positie:
-              </Grid>
-              <Grid item xs={6}>
-                €0,00
+                <Grid container spacing={2}>
+                  <Grid item xs={12} className="mainTitle">
+                    {propertyName}
+                  </Grid>
+                  <Grid item xs={4} className="actionButton">
+                    <BuyModal property={this.state.property} />
+                  </Grid>
+                  <Grid item xs={4} className="actionButton">
+                    <SellModal property={this.state.property} />
+                  </Grid>
+                </Grid>
               </Grid>
             </Grid>
-            {this.renderChart()}
-            <Grid item xs={6}>
-              <BuyModal property={this.state.property} />
-            </Grid>
-            <Grid item xs={6}>
-              <SellModal property={this.state.property} />
+          </Grid>
+          <Grid className="detailCard" item xs={12}>
+            <Grid container>
+              <Grid item xs={6}>
+                {this.renderPropertyDetails(this.state.property)}
+              </Grid>
+              <Grid item xs={6}>
+                <Grid container className="propertyDetails">
+                  <Grid item xs={6} className="label">
+                    Totaalprijs:
+                    <span className="price"> € {formatEuro(currentPrice)}</span>
+                  </Grid>
+                  <Grid item xs={6} className="label">
+                    Tokenprijs:{" "}
+                    <span className="price">
+                      € {formatEuro(currentTokenPrice)}
+                    </span>
+                  </Grid>
+                </Grid>
+                {this.renderChart()}
+              </Grid>
             </Grid>
           </Grid>
         </Grid>
-      </div>
+        {/* <Grid container className="imageSliderContainer">
+          <ImageSlider images={this.state.images} />
+        </Grid> */}
+      </MainContainer>
     );
   }
 }

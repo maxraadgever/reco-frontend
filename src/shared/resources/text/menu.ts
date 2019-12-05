@@ -1,7 +1,8 @@
 export const menus = {
   Name: "RECO Investing",
   Dashboard: "Dashboard",
-  Portfolio: "Portfolio",
+  Portfolio: "Portefeuille",
+  Parks: "Parken",
   Properties: "Woningen",
   propertyActions: {
     edit: "Woning wijzigen",

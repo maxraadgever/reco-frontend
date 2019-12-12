@@ -62,7 +62,7 @@ class PortfolioHeaderBar extends Component<IProps, IState> {
 
   render() {
     return (
-      <Grid container className="headerBar" spacing={2}>
+      <Grid container className="" spacing={2}>
         {/* <Grid container item xs={1}>
           <Grid item alignContent="center">
             {this.balancePieChart(this.state.balance, this.state.portfolio)}

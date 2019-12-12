@@ -66,36 +66,58 @@ class PropertyPriceChart extends Component<IProps, IState> {
       });
   }
 
+  renderChart() {
+    let extra: any = {};
+    if (this.state.data.length <= 1) {
+      extra.className = "notEnoughDataChart";
+    }
+
+    return (
+      <FlexibleWidthXYPlot
+        height={300}
+        xType="time"
+        yDomain={[this.state.lowest * 0.9, this.state.highest * 1.1]}
+        {...extra}
+      >
+        <XAxis title="Periode" />
+        <YAxis title="Waarde token (€)" />
+        <AreaSeries data={this.state.data} opacity={0.7} color="#ddf4ec" />
+        <LineMarkSeries
+          style={{
+            strokeWidth: "3px"
+          }}
+          lineStyle={{ stroke: "#20b984" }}
+          markStyle={{ stroke: "#20b984" }}
+          onValueMouseOver={d => this.setState({ hovered: d })}
+          onValueMouseOut={d => this.setState({ hovered: false })}
+          data={this.state.data}
+        />
+        {this.state.hovered && (
+          <Hint value={this.state.hovered}>
+            <p style={{ color: "#000000" }}>
+              {"Prijs per token: €" + formatEuro(this.state.hovered.y)}
+            </p>
+          </Hint>
+        )}
+      </FlexibleWidthXYPlot>
+    );
+  }
+
   render() {
+    let noData: any = null;
+    if (this.state.data.length <= 1) {
+      noData = (
+        <Grid item xs={12} className="notEnoughData">
+          Niet genoeg data
+        </Grid>
+      );
+    }
+
     console.log([this.state.lowest * 0.9, this.state.highest * 1.1]);
     return (
       <Grid container xs={12}>
-        <FlexibleWidthXYPlot
-          height={300}
-          xType="time"
-          yDomain={[this.state.lowest * 0.9, this.state.highest * 1.1]}
-        >
-          <XAxis title="Periode" />
-          <YAxis title="Waarde token (€)" />
-          <AreaSeries data={this.state.data} opacity={0.7} color="#ddf4ec" />
-          <LineMarkSeries
-            style={{
-              strokeWidth: "3px"
-            }}
-            lineStyle={{ stroke: "#20b984" }}
-            markStyle={{ stroke: "#20b984" }}
-            onValueMouseOver={d => this.setState({ hovered: d })}
-            onValueMouseOut={d => this.setState({ hovered: false })}
-            data={this.state.data}
-          />
-          {this.state.hovered && (
-            <Hint value={this.state.hovered}>
-              <p style={{ color: "#000000" }}>
-                {"Prijs per token: €" + formatEuro(this.state.hovered.y)}
-              </p>
-            </Hint>
-          )}
-        </FlexibleWidthXYPlot>
+        {noData}
+        {this.renderChart()}
       </Grid>
     );
   }

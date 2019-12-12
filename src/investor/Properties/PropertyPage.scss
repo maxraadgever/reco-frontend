@@ -36,8 +36,8 @@
     position: absolute;
     margin-top: 85px;
     height: 400px;
-    display: grid;
     padding-left: 10px;
+    width: inherit;
   }
   .mainTitle {
     height: 0px;
@@ -70,4 +70,16 @@
       color: #2e2a2a;
     }
   }
+}
+
+.notEnoughData {
+  text-align: center;
+  position: relative;
+  top: 125px;
+  color: #bebebe;
+  font-weight: bold;
+  font-size: 18px;
+}
+.notEnoughDataChart {
+  opacity: 0.5;
 }

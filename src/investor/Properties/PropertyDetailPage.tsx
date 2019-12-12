@@ -157,17 +157,19 @@ class PropertyDetailPage extends Component<IProps, IState> {
       <MainContainer noStyle>
         <Grid container spacing={2} className="detailContainer">
           <Grid item xs={12} className="headerImage">
-            <img src={imageSrc} />
+            <Grid container>
+              <img src={imageSrc} />
+            </Grid>
             <Grid container className="titleContainer">
-              <Grid item xs={6}>
+              <Grid item xs={12}>
                 <Grid container spacing={2}>
                   <Grid item xs={12} className="mainTitle">
                     {propertyName}
                   </Grid>
-                  <Grid item xs={4} className="actionButton">
+                  <Grid item xs={2} className="actionButton">
                     <BuyModal property={this.state.property} />
                   </Grid>
-                  <Grid item xs={4} className="actionButton">
+                  <Grid item xs={2} className="actionButton">
                     <SellModal property={this.state.property} />
                   </Grid>
                 </Grid>

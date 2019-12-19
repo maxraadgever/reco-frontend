@@ -65,97 +65,110 @@ class SettingsPage extends Component<IProps, IState> {
     return (
       <MainContainer noStyle>
         {this.state.redirect}
-        <Grid container>
-          <Grid container item xs={12}>
-            <AccountHeaderBar investor={this.state.investor} />
-          </Grid>
-
-          <Grid className="mainContent" container item xs={6}>
-            <Grid item xs={12}>
-              <Typography color="textPrimary" variant="h6" gutterBottom>
-                Account
-              </Typography>
-            </Grid>
-            <Grid item xs={3}>
-              Voornaam:
-            </Grid>
-            <Grid item xs={9}>
-              {this.state.investor.firstName}
-            </Grid>
-            <Grid item xs={3}>
-              Tussenvoegsel:
-            </Grid>
-            <Grid item xs={9}>
-              {this.state.investor.subName}
-            </Grid>
-
-            <Grid item xs={3}>
-              Achternaam:
-            </Grid>
-            <Grid item xs={9}>
-              {this.state.investor.lastName}
-            </Grid>
-            <Grid item xs={3}>
-              E-mailadres
-            </Grid>
-            <Grid item xs={9}>
-              {this.state.investor.lastName}
-            </Grid>
-            <Grid item xs={3}>
-              Geboortedatum
-            </Grid>
-            <Grid item xs={9}>
-              <Moment format="DD/MM/YYYY">
-                {this.state.investor.dateOfBirth}
-              </Moment>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Grid container>
+              <AccountHeaderBar investor={this.state.investor} />
             </Grid>
           </Grid>
-          <Grid className="mainContent" container item xs={6}>
-            <Grid item xs={12}>
-              <Typography color="textPrimary" variant="h6" gutterBottom>
-                Verificatie
-              </Typography>
+          <Grid item xs={6}>
+            <Grid container>
+              <Grid className="mainContent" item xs={12}>
+                <Grid container spacing={1}>
+                  <Grid item xs={12}>
+                    <Typography color="textPrimary" variant="h6" gutterBottom>
+                      Account
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={3}>
+                    Voornaam:
+                  </Grid>
+                  <Grid item xs={9}>
+                    {this.state.investor.firstName}
+                  </Grid>
+                  <Grid item xs={3}>
+                    Tussenvoegsel:
+                  </Grid>
+                  <Grid item xs={9}>
+                    {this.state.investor.subName}
+                  </Grid>
+
+                  <Grid item xs={3}>
+                    Achternaam:
+                  </Grid>
+                  <Grid item xs={9}>
+                    {this.state.investor.lastName}
+                  </Grid>
+                  <Grid item xs={3}>
+                    E-mailadres
+                  </Grid>
+                  <Grid item xs={9}>
+                    {this.state.investor.lastName}
+                  </Grid>
+                  <Grid item xs={3}>
+                    Geboortedatum
+                  </Grid>
+                  <Grid item xs={9}>
+                    <Moment format="DD/MM/YYYY">
+                      {this.state.investor.dateOfBirth}
+                    </Moment>
+                  </Grid>
+                </Grid>
+              </Grid>
             </Grid>
-            <Grid item xs={6}>
-              Legitimatie bewijs:
-            </Grid>
-            <Grid item xs={6}>
-              <input
-                accept="image/*"
-                className="inputName"
-                style={{ display: "none" }}
-                id="raised-button-file"
-                multiple
-                type="file"
-                onChange={this.onIDFileUpload}
-              />
-              <label htmlFor="raised-button-file">
-                <Button
-                  component="span"
-                  className="uploadButton"
-                  variant="contained"
-                  color="primary"
-                  fullWidth
-                  {...extraButtonProps}
-                >
-                  {uploadText}
-                </Button>
-              </label>
-            </Grid>
-            <Grid item xs={6}>
-              Bank rekening controle:
-            </Grid>
-            <Grid item xs={6}>
-              <Button
-                component="span"
-                className="uploadButton"
-                variant="contained"
-                color="primary"
-                onClick={this.startBankCheck}
-                {...extraButtonProps}
-              >
-                {bankCheckText}
-              </Button>
+          </Grid>
+          <Grid item xs={6}>
+            <Grid container>
+              <Grid className="mainContent" item xs={12}>
+                <Grid container spacing={1}>
+                  <Grid item xs={12}>
+                    <Typography color="textPrimary" variant="h6" gutterBottom>
+                      Verificatie
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={6}>
+                    Legitimatie bewijs:
+                  </Grid>
+                  <Grid item xs={6}>
+                    <input
+                      accept="image/*"
+                      className="inputName"
+                      style={{ display: "none" }}
+                      id="raised-button-file"
+                      multiple
+                      type="file"
+                      onChange={this.onIDFileUpload}
+                    />
+                    <label htmlFor="raised-button-file">
+                      <Button
+                        component="span"
+                        className="uploadButton"
+                        variant="contained"
+                        color="primary"
+                        fullWidth
+                        {...extraButtonProps}
+                      >
+                        {uploadText}
+                      </Button>
+                    </label>
+                  </Grid>
+                  <Grid item xs={6}>
+                    Bank rekening controle:
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Button
+                      component="span"
+                      className="uploadButton"
+                      variant="contained"
+                      color="primary"
+                      onClick={this.startBankCheck}
+                      {...extraButtonProps}
+                    >
+                      {bankCheckText}
+                    </Button>
+                  </Grid>
+                </Grid>
+              </Grid>
             </Grid>
           </Grid>
         </Grid>

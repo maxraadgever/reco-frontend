@@ -22,6 +22,7 @@ import { Redirect } from "react-router";
 import { colors } from "../../resources/styles";
 import DepositModal from "../Modal/DepositModal";
 import { api } from "../../Util/Api";
+import WithdrawModal from "../Modal/WithdrawModal";
 
 const drawerWidth = 240;
 
@@ -73,6 +74,7 @@ export default function SideBar(props: Props) {
   const [selectedIndex, setSelectedIndex] = React.useState();
   const [redirect, setRedirect] = React.useState();
   const [depositModalOpen, setDepositModalOpen] = React.useState(false);
+  const [withdrawModalOpen, setWithdrawModalOpen] = React.useState(false);
   const [investor, setInvestor] = React.useState();
   const [extraButtonProps, setExtraButtonProps] = React.useState({});
 
@@ -144,6 +146,12 @@ export default function SideBar(props: Props) {
   const handleDepositClose = () => {
     setDepositModalOpen(false);
   };
+  const handleWithdrawOpen = () => {
+    setWithdrawModalOpen(true);
+  };
+  const handleWithdrawClose = () => {
+    setWithdrawModalOpen(false);
+  };
 
   const handleListClick = (event: any, item: ISideBarItem, index: any) => {
     setSelectedIndex(index);
@@ -196,7 +204,7 @@ export default function SideBar(props: Props) {
           <ListItem
             button
             key="depositButton"
-            onClick={handleDepositOpen}
+            onClick={handleWithdrawOpen}
             {...extraButtonProps}
           >
             <ListItemIcon className={classes.icon}>
@@ -205,6 +213,10 @@ export default function SideBar(props: Props) {
             <ListItemText primary="Opnemen" />
           </ListItem>
           <DepositModal open={depositModalOpen} onClose={handleDepositClose} />
+          <WithdrawModal
+            open={withdrawModalOpen}
+            onClose={handleWithdrawClose}
+          />
         </List>
       </Drawer>
     </div>
